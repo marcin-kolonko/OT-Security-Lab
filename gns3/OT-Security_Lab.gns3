@@ -269,6 +269,42 @@
                     }
                 ],
                 "suspend": false
+            },
+            {
+                "filters": {},
+                "link_id": "9198a6cf-a5cf-4a92-b5d1-81633dce341a",
+                "link_style": {
+                    "color": "#000000",
+                    "type": 1,
+                    "width": 2
+                },
+                "nodes": [
+                    {
+                        "adapter_number": 0,
+                        "label": {
+                            "rotation": 0,
+                            "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
+                            "text": "e0",
+                            "x": 47,
+                            "y": -7
+                        },
+                        "node_id": "37c8335f-a4c2-47d7-9f44-48ef7fb92e2e",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 0,
+                        "label": {
+                            "rotation": 0,
+                            "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
+                            "text": "e3",
+                            "x": 20,
+                            "y": 52
+                        },
+                        "node_id": "1cd221e2-7418-456c-8ce7-7f4689e1b71f",
+                        "port_number": 3
+                    }
+                ],
+                "suspend": false
             }
         ],
         "nodes": [
@@ -680,6 +716,76 @@
                 "width": 65,
                 "x": 135,
                 "y": 172,
+                "z": 1
+            },
+            {
+                "compute_id": "vm",
+                "console": 5013,
+                "console_auto_start": false,
+                "console_type": "telnet",
+                "custom_adapters": [],
+                "first_port_name": "",
+                "height": 59,
+                "label": {
+                    "rotation": 0,
+                    "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
+                    "text": "MQTT",
+                    "x": 11,
+                    "y": -25
+                },
+                "locked": false,
+                "name": "MQTT",
+                "node_id": "37c8335f-a4c2-47d7-9f44-48ef7fb92e2e",
+                "node_type": "qemu",
+                "port_name_format": "Ethernet{0}",
+                "port_segment_size": 0,
+                "properties": {
+                    "adapter_type": "virtio-net-pci",
+                    "adapters": 1,
+                    "bios_image": "",
+                    "bios_image_md5sum": null,
+                    "boot_priority": "c",
+                    "cdrom_image": "ubuntu-cloud-init-data.iso",
+                    "cdrom_image_md5sum": "9a90ee8f88736204c756015b3cd86500",
+                    "cpu_throttling": 0,
+                    "cpus": 1,
+                    "create_config_disk": false,
+                    "hda_disk_image": "ubuntu-24.04-server-cloudimg-amd64.img",
+                    "hda_disk_image_md5sum": "a1c8a01953578ad432cbef03db2f3161",
+                    "hda_disk_interface": "virtio",
+                    "hdb_disk_image": "",
+                    "hdb_disk_image_md5sum": null,
+                    "hdb_disk_interface": "none",
+                    "hdc_disk_image": "",
+                    "hdc_disk_image_md5sum": null,
+                    "hdc_disk_interface": "none",
+                    "hdd_disk_image": "",
+                    "hdd_disk_image_md5sum": null,
+                    "hdd_disk_interface": "none",
+                    "initrd": "",
+                    "initrd_md5sum": null,
+                    "kernel_command_line": "",
+                    "kernel_image": "",
+                    "kernel_image_md5sum": null,
+                    "legacy_networking": false,
+                    "linked_clone": true,
+                    "mac_address": "0c:c8:33:5f:00:00",
+                    "on_close": "power_off",
+                    "options": "-nographic",
+                    "platform": "x86_64",
+                    "process_priority": "normal",
+                    "qemu_path": "/usr/bin/qemu-system-x86_64",
+                    "ram": 1024,
+                    "replicate_network_connection_state": true,
+                    "tpm": false,
+                    "uefi": false,
+                    "usage": "Username: ubuntu\nPassword: ubuntu"
+                },
+                "symbol": ":/symbols/classic/qemu_guest.svg",
+                "template_id": "97949e2c-1ae0-4702-a829-ec1df3fa17cc",
+                "width": 65,
+                "x": -179,
+                "y": 262,
                 "z": 1
             }
         ]

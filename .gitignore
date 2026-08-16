@@ -1,0 +1,19 @@
+# Virtual machine disks
+*.qcow2
+*.vmdk
+*.vdi
+*.img
+
+# ISO files
+*.iso
+
+# Temporary files
+*.tmp
+*.log
+
+# GNS3 temporary files
+*.gns3_lock
+
+# OS files
+.DS_Store
+Thumbs.db

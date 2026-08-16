@@ -128,42 +128,6 @@
             },
             {
                 "filters": {},
-                "link_id": "a9e3e32d-ba68-4e26-b0b7-02c767d66e95",
-                "link_style": {
-                    "color": "#000000",
-                    "type": 1,
-                    "width": 2
-                },
-                "nodes": [
-                    {
-                        "adapter_number": 0,
-                        "label": {
-                            "rotation": 0,
-                            "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
-                            "text": "eth1",
-                            "x": 159,
-                            "y": 41
-                        },
-                        "node_id": "4197fd50-fc5a-4fa6-b7c5-f1d36cd28db1",
-                        "port_number": 1
-                    },
-                    {
-                        "adapter_number": 0,
-                        "label": {
-                            "rotation": 0,
-                            "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
-                            "text": "ether1",
-                            "x": -6,
-                            "y": 18
-                        },
-                        "node_id": "6791656b-e6bd-4bd5-824c-df4eb3de8135",
-                        "port_number": 0
-                    }
-                ],
-                "suspend": false
-            },
-            {
-                "filters": {},
                 "link_id": "2e7a536b-2639-46d9-9cf0-3b14ecf9b7cd",
                 "link_style": {
                     "color": "#000000",
@@ -265,6 +229,42 @@
                             "y": -2
                         },
                         "node_id": "1cd221e2-7418-456c-8ce7-7f4689e1b71f",
+                        "port_number": 0
+                    }
+                ],
+                "suspend": false
+            },
+            {
+                "filters": {},
+                "link_id": "7ee9236b-c75a-4b99-82e2-2fb355680f3a",
+                "link_style": {
+                    "color": "#000000",
+                    "type": 1,
+                    "width": 2
+                },
+                "nodes": [
+                    {
+                        "adapter_number": 0,
+                        "label": {
+                            "rotation": 0,
+                            "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
+                            "text": "eth0",
+                            "x": 164,
+                            "y": 65
+                        },
+                        "node_id": "4197fd50-fc5a-4fa6-b7c5-f1d36cd28db1",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 0,
+                        "label": {
+                            "rotation": 0,
+                            "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
+                            "text": "ether1",
+                            "x": -4,
+                            "y": 8
+                        },
+                        "node_id": "6791656b-e6bd-4bd5-824c-df4eb3de8135",
                         "port_number": 0
                     }
                 ],
@@ -415,11 +415,6 @@
                             "type": "ethernet"
                         },
                         {
-                            "name": "eth1",
-                            "special": false,
-                            "type": "ethernet"
-                        },
-                        {
                             "name": "lo",
                             "special": true,
                             "type": "ethernet"
@@ -435,12 +430,6 @@
                             "interface": "eth0",
                             "name": "eth0",
                             "port_number": 0,
-                            "type": "ethernet"
-                        },
-                        {
-                            "interface": "eth1",
-                            "name": "eth1",
-                            "port_number": 1,
                             "type": "ethernet"
                         }
                     ],
@@ -698,5 +687,5 @@
     "type": "topology",
     "variables": null,
     "version": "2.2.61",
-    "zoom": 100
+    "zoom": 119
 }

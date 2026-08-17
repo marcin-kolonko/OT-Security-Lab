@@ -385,7 +385,7 @@
                 "template_id": "1966b864-93e7-32d5-965f-001384eec461",
                 "width": 72,
                 "x": -112,
-                "y": -122,
+                "y": -167,
                 "z": 1
             },
             {
@@ -413,8 +413,8 @@
                 "symbol": ":/symbols/vpcs_guest.svg",
                 "template_id": "19021f99-e36f-394d-b4a1-8aaa902ab9cc",
                 "width": 65,
-                "x": 47,
-                "y": -282,
+                "x": -48,
+                "y": -266,
                 "z": 1
             },
             {
@@ -477,8 +477,8 @@
                 "symbol": ":/symbols/cloud.svg",
                 "template_id": "39e257dc-8412-3174-b6b3-0ee3ed6a43e9",
                 "width": 159,
-                "x": -707,
-                "y": -172,
+                "x": -624,
+                "y": -189,
                 "z": 1
             },
             {
@@ -506,8 +506,8 @@
                 "symbol": ":/symbols/vpcs_guest.svg",
                 "template_id": "19021f99-e36f-394d-b4a1-8aaa902ab9cc",
                 "width": 65,
-                "x": -229,
-                "y": -283,
+                "x": -149,
+                "y": -265,
                 "z": 1
             },
             {
@@ -576,8 +576,8 @@
                 "symbol": ":/symbols/classic/router.svg",
                 "template_id": "43d936b9-a526-4cbd-a0cf-ae751b4b1b39",
                 "width": 66,
-                "x": -428,
-                "y": -75,
+                "x": -403,
+                "y": -176,
                 "z": 1
             },
             {
@@ -656,8 +656,8 @@
                 "symbol": ":/symbols/ethernet_switch.svg",
                 "template_id": "1966b864-93e7-32d5-965f-001384eec461",
                 "width": 72,
-                "x": -121,
-                "y": 129,
+                "x": -116,
+                "y": 73,
                 "z": 1
             },
             {
@@ -685,8 +685,8 @@
                 "symbol": ":/symbols/vpcs_guest.svg",
                 "template_id": "19021f99-e36f-394d-b4a1-8aaa902ab9cc",
                 "width": 65,
-                "x": 124,
-                "y": 5,
+                "x": -18,
+                "y": -34,
                 "z": 1
             },
             {
@@ -714,8 +714,8 @@
                 "symbol": ":/symbols/vpcs_guest.svg",
                 "template_id": "19021f99-e36f-394d-b4a1-8aaa902ab9cc",
                 "width": 65,
-                "x": 135,
-                "y": 172,
+                "x": -15,
+                "y": 62,
                 "z": 1
             },
             {
@@ -729,12 +729,12 @@
                 "label": {
                     "rotation": 0,
                     "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
-                    "text": "MQTT",
-                    "x": 11,
+                    "text": "OT-MQTT",
+                    "x": 0,
                     "y": -25
                 },
                 "locked": false,
-                "name": "MQTT",
+                "name": "OT-MQTT",
                 "node_id": "37c8335f-a4c2-47d7-9f44-48ef7fb92e2e",
                 "node_type": "qemu",
                 "port_name_format": "Ethernet{0}",
@@ -784,8 +784,8 @@
                 "symbol": ":/symbols/classic/qemu_guest.svg",
                 "template_id": "97949e2c-1ae0-4702-a829-ec1df3fa17cc",
                 "width": 65,
-                "x": -179,
-                "y": 262,
+                "x": -111,
+                "y": -71,
                 "z": 1
             }
         ]

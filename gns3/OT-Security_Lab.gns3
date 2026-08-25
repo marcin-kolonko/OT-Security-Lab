@@ -534,7 +534,7 @@
             },
             {
                 "filters": {},
-                "link_id": "2f33bb14-ab85-48a5-ae29-1ee7ede0f6f2",
+                "link_id": "e55701fa-9a97-4bd1-911a-b554b7bda017",
                 "link_style": {
                     "color": "#000000",
                     "type": 1,
@@ -546,24 +546,24 @@
                         "label": {
                             "rotation": 0,
                             "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
-                            "text": "e1",
-                            "x": 9,
-                            "y": 46
+                            "text": "eth0",
+                            "x": 55,
+                            "y": -2
                         },
-                        "node_id": "4755eb5b-4347-422f-beb4-b9bd9e82b49f",
-                        "port_number": 1
+                        "node_id": "2fdd400a-1534-4261-bf10-d7d0d009bfe3",
+                        "port_number": 0
                     },
                     {
                         "adapter_number": 0,
                         "label": {
                             "rotation": 0,
                             "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
-                            "text": "eth0",
-                            "x": 58,
-                            "y": -1
+                            "text": "e1",
+                            "x": 12,
+                            "y": 48
                         },
-                        "node_id": "42aa9440-a1df-40a1-a256-f0e9374a6d1e",
-                        "port_number": 0
+                        "node_id": "4755eb5b-4347-422f-beb4-b9bd9e82b49f",
+                        "port_number": 1
                     }
                 ],
                 "suspend": false
@@ -714,6 +714,11 @@
                         },
                         {
                             "name": "eth1",
+                            "special": false,
+                            "type": "ethernet"
+                        },
+                        {
+                            "name": "eth2",
                             "special": false,
                             "type": "ethernet"
                         },
@@ -1273,7 +1278,7 @@
                 "compute_id": "vm",
                 "console": null,
                 "console_auto_start": false,
-                "console_type": null,
+                "console_type": "none",
                 "custom_adapters": [],
                 "first_port_name": null,
                 "height": 71,
@@ -1304,6 +1309,11 @@
                         },
                         {
                             "name": "eth1",
+                            "special": false,
+                            "type": "ethernet"
+                        },
+                        {
+                            "name": "eth2",
                             "special": false,
                             "type": "ethernet"
                         },
@@ -1426,45 +1436,158 @@
             },
             {
                 "compute_id": "vm",
-                "console": null,
+                "console": 5022,
                 "console_auto_start": false,
-                "console_type": "none",
+                "console_type": "telnet",
                 "custom_adapters": [],
-                "first_port_name": null,
+                "first_port_name": "",
                 "height": 59,
                 "label": {
                     "rotation": 0,
                     "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
-                    "text": "OpenPLC-CELL01",
-                    "x": -25,
+                    "text": "PLC01",
+                    "x": 9,
                     "y": -25
                 },
                 "locked": false,
-                "name": "OpenPLC-CELL01",
-                "node_id": "42aa9440-a1df-40a1-a256-f0e9374a6d1e",
-                "node_type": "docker",
+                "name": "PLC01",
+                "node_id": "2fdd400a-1534-4261-bf10-d7d0d009bfe3",
+                "node_type": "qemu",
+                "port_name_format": "eth{0}",
+                "port_segment_size": 0,
+                "properties": {
+                    "adapter_type": "virtio-net-pci",
+                    "adapters": 1,
+                    "bios_image": "",
+                    "bios_image_md5sum": null,
+                    "boot_priority": "c",
+                    "cdrom_image": "",
+                    "cdrom_image_md5sum": null,
+                    "cpu_throttling": 0,
+                    "cpus": 1,
+                    "create_config_disk": false,
+                    "hda_disk_image": "alpine-virt-3.18.4.qcow2",
+                    "hda_disk_image_md5sum": "99d393c16c870e12c4215aadd82ca998",
+                    "hda_disk_interface": "virtio",
+                    "hdb_disk_image": "",
+                    "hdb_disk_image_md5sum": null,
+                    "hdb_disk_interface": "none",
+                    "hdc_disk_image": "",
+                    "hdc_disk_image_md5sum": null,
+                    "hdc_disk_interface": "none",
+                    "hdd_disk_image": "",
+                    "hdd_disk_image_md5sum": null,
+                    "hdd_disk_interface": "none",
+                    "initrd": "",
+                    "initrd_md5sum": null,
+                    "kernel_command_line": "",
+                    "kernel_image": "",
+                    "kernel_image_md5sum": null,
+                    "legacy_networking": false,
+                    "linked_clone": true,
+                    "mac_address": "0c:dd:40:0a:00:00",
+                    "on_close": "power_off",
+                    "options": "",
+                    "platform": "x86_64",
+                    "process_priority": "normal",
+                    "qemu_path": "/bin/qemu-system-x86_64",
+                    "ram": 128,
+                    "replicate_network_connection_state": true,
+                    "tpm": false,
+                    "uefi": false,
+                    "usage": "Autologin is enabled as \"root\" with no password.\n\nThe network interfaces aren't configured, you can do either of the following:\n- Use alpine's DHCP client: `udhcpc`\n- Configure them manually (ip address add \u2026, ip route add \u2026)\n- Modify interfaces file in /etc/network/interfaces\n- Use alpine's wizard: `setup-interfaces`"
+                },
+                "symbol": "alpine-virt-qemu.svg",
+                "template_id": "de6fe97c-de9e-479b-a884-58e9831253e6",
+                "width": 65,
+                "x": -495,
+                "y": 180,
+                "z": 1
+            },
+            {
+                "compute_id": "vm",
+                "console": null,
+                "console_auto_start": false,
+                "console_type": null,
+                "custom_adapters": [],
+                "first_port_name": null,
+                "height": 71,
+                "label": {
+                    "rotation": 0,
+                    "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
+                    "text": "Internet",
+                    "x": 48,
+                    "y": -25
+                },
+                "locked": false,
+                "name": "Internet",
+                "node_id": "9a30e271-361c-43fc-95a0-d404c3278ab9",
+                "node_type": "cloud",
                 "port_name_format": "Ethernet{0}",
                 "port_segment_size": 0,
                 "properties": {
-                    "adapters": 1,
-                    "aux": 5027,
-                    "console_http_path": "/",
-                    "console_http_port": 80,
-                    "console_resolution": "1024x768",
-                    "container_id": "0d5288e0c1ed14f2f8198b945ea10c91ab7d634eff85c656ba697259e1f6fd50",
-                    "environment": "",
-                    "extra_hosts": "",
-                    "extra_volumes": [],
-                    "image": "ghcr.io/autonomy-logic/openplc-runtime:latest",
-                    "mac_address": "02:42:aa:94:40:00",
-                    "start_command": null,
-                    "usage": ""
+                    "interfaces": [
+                        {
+                            "name": "docker0",
+                            "special": true,
+                            "type": "ethernet"
+                        },
+                        {
+                            "name": "eth0",
+                            "special": false,
+                            "type": "ethernet"
+                        },
+                        {
+                            "name": "eth1",
+                            "special": false,
+                            "type": "ethernet"
+                        },
+                        {
+                            "name": "eth2",
+                            "special": false,
+                            "type": "ethernet"
+                        },
+                        {
+                            "name": "lo",
+                            "special": true,
+                            "type": "ethernet"
+                        },
+                        {
+                            "name": "virbr0",
+                            "special": true,
+                            "type": "ethernet"
+                        }
+                    ],
+                    "ports_mapping": [
+                        {
+                            "interface": "eth0",
+                            "name": "eth0",
+                            "port_number": 0,
+                            "type": "ethernet"
+                        },
+                        {
+                            "interface": "eth1",
+                            "name": "eth1",
+                            "port_number": 1,
+                            "type": "ethernet"
+                        },
+                        {
+                            "interface": "eth2",
+                            "name": "eth2",
+                            "port_number": 2,
+                            "type": "ethernet"
+                        }
+                    ],
+                    "remote_console_host": "",
+                    "remote_console_http_path": "/",
+                    "remote_console_port": 23,
+                    "remote_console_type": "none"
                 },
-                "symbol": ":/symbols/docker_guest.svg",
-                "template_id": "6a424cfb-fe86-4f1a-b52e-0b221587503e",
-                "width": 65,
-                "x": -502,
-                "y": 170,
+                "symbol": ":/symbols/cloud.svg",
+                "template_id": "39e257dc-8412-3174-b6b3-0ee3ed6a43e9",
+                "width": 159,
+                "x": -696,
+                "y": -406,
                 "z": 1
             }
         ]

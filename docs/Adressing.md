@@ -12,6 +12,10 @@ AUX/EDGE
 Network:	10.250.30.0/28
 Gateway:	10.250.30.5
 
+INTERNET
+Network:	NAT DHCP
+Gateway:	NAT DHCP
+
 TRANSIT
 10.250.1.0/30       CELL-01
 10.250.2.0/30       CELL-02
@@ -76,7 +80,7 @@ ROUTING:
 Network:		10.251.1.0/26
 Gateway:		10.251.1.1
 
-OpenPLC-CELL01:		10.251.1.11/26		(OpenPLC Docker)
+PLC01:			10.251.1.11/26		(Alpine Linux 3.18.4 + Python + MQTT)
 HMI:			10.251.1.12/26		(VPCS)
 Robot:			10.251.1.13/26		(VPCS)
 

@@ -5,128 +5,154 @@ ADRESACJA LABORATORIUM
 ----------------------
 
 LAB-MGMT
-Network:	10.250.0.0/24
-Gateway:	10.250.0.5
-
-AUX/EDGE
-Network:	10.250.30.0/28
-Gateway:	10.250.30.5
-
-INTERNET
-Network:	NAT DHCP
-Gateway:	NAT DHCP
+Network:    10.250.0.0/24
+Gateway:    10.250.0.5
 
 TRANSIT
-10.250.1.0/30       CELL01
-10.250.2.0/30       CELL0x
-10.250.3.0/30       CELL0x
+10.250.1.0/30       CELL01 ↔ MKT-1/MKT-2
+10.250.2.0/30       reserved
+10.250.3.0/30       reserved
 ...
 
-CELL CONTROL
-10.251.1.0/26       CELL01
-10.251.2.0/26       CELL0x
-10.251.3.0/26       CELL0x
+AUX/EDGE
+Network:    10.250.30.0/28
+Gateway:    10.250.30.5
 
-CELL ZONES
-192.168.60.0/24     CELL03
-192.168.70.0/24     CELL02
+CELL CONTROL
+10.251.1.0/26       CELL01 / legacy
+10.251.2.0/24       CELL02 / VLAN 102
+10.251.3.0/24       CELL03 / VLAN 103
+
+OT SERVICES
+10.252.10.0/26      OT-MQTT / VLAN 210
+
+INTERNET
+NAT / DHCP
+
 
 2. MKT-1
 ---------
 
-ether1 (LAB-MGMT): 	10.250.0.5/24
-ether2 (CELL03)		192.168.60.1/24
-ether3 (CELL02)		192.168.70.1/24
-ether4 (CELL01)		10.250.1.1/30
-ether5 (AUX/EDGE)	10.250.30.5/28
-ether6			-
-ether7			-
-ether8			-
+ether1  LAB-MGMT       10.250.0.5/24
+ether2  legacy CELL02  -
+ether3  legacy CELL03  -
+ether4  CELL01         10.250.1.1/30
+ether5  AUX/EDGE       10.250.30.5/28
+ether6  -
+ether7  OT-AGG-SW01   TRUNK
+ether8  -
+
+VLAN:
+
+VLAN 102   CELL02       10.251.2.1/24
+VLAN 103   CELL03       10.251.3.1/24
+VLAN 210   OT-MQTT      10.252.10.1/26
 
 ROUTING:
 
-10.250.0.0/24      connected
-192.168.60.0/24    connected
-192.168.70.0/24    connected
-10.250.1.0/30      connected
-10.250.30.0/28     connected
+10.251.1.0/26    → 10.250.1.2
+10.251.2.0/24    connected
+10.251.3.0/24    connected
+10.252.10.0/26   connected
 
-10.251.1.0/26      → 10.250.1.2
 
-3. MKT-2:
-----------
+3. MKT-2
+---------
 
-ether1 (TRANSIT-CELL01)	10.250.1.2/30
-ether2 (CELL01)		10.251.1.1/26
-ether3			-
-ether4			-
-ether5			-
-ether6			-
-ether7			-
-ether8			-
-
+ether1  TRANSIT-CELL01   10.250.1.2/30
+ether2  CELL01            10.251.1.1/26
 
 ROUTING:
 
-10.250.1.0/30      connected
-10.251.1.0/26      connected
+10.251.1.0/26    connected
 
-192.168.60.0/24    → 10.250.1.1
-192.168.70.0/24    → 10.250.1.1
 
-4. CELL01 'SQUIRTLE' 
-----------
-
-Network:		10.251.1.0/26
-Gateway:		10.251.1.1
-
-CELL01-PLC01:		10.251.1.11/26		(Alpine Linux 3.18.4 + Python + MQTT)
-CELL01-HMI01:		10.251.1.12/26		(VPCS)
-CELL01-ROB01:		10.251.1.13/26		(VPCS)
-
-5. CELL02 'PIKACHU'
-------------
-
-Network:		192.168.70.0/24
-Gateway:		192.168.70.1
-
-CELL02-PLC01		192.168.70.6/24		(Alpine Linux 3.18.4 + Python + MQTT)
-CELL02-HMI01		192.168.70.10/24	(VPCS)
-OT-MQTT			192.168.70.11/24	(Ubuntu 24.04.1 LTS)
-
-6. CELL03 'CHARMANDER'
-------------
-Network:		192.168.60.0/24
-Gateway:		192.168.60.1
-
-CELL03-PLC01		192.168.60.10/24	(Alpine Linux 3.18.4 + Python + MQTT)
-CELL03-HMI01		192.168.60.20/24	(VPCS)
-
-7. UBUNTU EDGE
+4. OT-AGG-SW01
 --------------
 
-Ubuntu 26.04 LTS
+Open vSwitch
 
-eth0	Internet / NAT
-	DHCP
-	192.168.137.x
+eth0    trunk → MKT-1 ether7
+eth1    -
+eth2    access VLAN 102 → CELL02
+eth3    access VLAN 103 → CELL03
+eth4    -
+eth5    -
+eth6    access VLAN 210
+eth7    -
 
-eth1	LAB-MGMT
-	10.250.0.10/24
+Management IP: none
 
-eth2	AUX/EDGE
-	10.250.30.10/28
 
-8. GNS3
--------
+5. CELL01 — SQUIRTLE
+--------------------
 
-GNS3 2.2.26
-eth0	LAB-MGMT
-	10.250.0.20/24
-eth1	AUX/EDGE
-	10.250.30.1/28
+Network:    10.251.1.0/26
+Gateway:    10.251.1.1
 
-9. Windows 11 PRO
+CELL01-PLC01    10.251.1.11/26
+CELL01-HMI01    10.251.1.12/26
+CELL01-ROB01    10.251.1.13/26
+
+Status: LEGACY CELL
+
+
+6. CELL02 — PIKACHU
+-------------------
+
+VLAN:       102
+Network:    10.251.2.0/24
+Gateway:    10.251.2.1
+
+CELL02-PLC01    10.251.2.6/24
+CELL02-HMI01    10.251.2.10/24
+
+
+7. CELL03 — CHARMANDER
+----------------------
+
+VLAN:       103
+Network:    10.251.3.0/24
+Gateway:    10.251.3.1
+
+CELL03-PLC01    10.251.3.10/24
+CELL03-HMI01    10.251.3.20/24
+
+
+8. OT-MQTT
+----------
+
+VLAN:       210
+Network:    10.252.10.0/26
+Gateway:    10.252.10.1
+
+OT-MQTT:    10.252.10.11/26
+
+Service:
+MQTT / Mosquitto — TCP 1883
+
+
+9. UBUNTU EDGE
+--------------
+
+Ubuntu
+
+eth0    Internet / NAT       DHCP
+eth1    LAB-MGMT             10.250.0.10/24
+eth2    AUX/EDGE             10.250.30.10/28
+
+
+10. GNS3
+--------
+
+GNS3 Server
+
+eth0    LAB-MGMT             10.250.0.20/24
+eth1    AUX/EDGE             10.250.30.1/28
+
+
+11. WINDOWS 11 PRO
+------------------
 
 LabSwitch
 10.250.0.1/24
@@ -136,58 +162,3 @@ NATSwitch
 
 Ethernet / LAN
 192.168.50.2/24
-
-10. ROUTING - ACTUAL STATE
-
-OT_Zone_1
-192.168.70.0/24
-        │
-        ▼
-MKT-1
-        │
-        ├── 10.250.1.1
-        ▼
-MKT-2
-10.250.1.2
-        │
-        ▼
-CELL-01
-10.251.1.0/26
-
-
-OT_Zone_2
-192.168.60.0/24
-        │
-        ▼
-MKT-1
-        │
-        ▼
-MKT-2
-        │
-        ▼
-CELL-01
-
-
-AUX/EDGE
-10.250.30.0/28
-        │
-        ▼
-MKT-1
-
-11. Networking tests
---------------------
-
-CELL01 → MKT-1			OK
-CELL01 → AUX/EDGE		OK
-
-CELL03 → MKT-1			OK
-CELL03 → CELL01			OK
-CELL03 → AUX/EDGE		OK
-CELL03 → LAB-MGMT		BLOCKED
-
-CELL03 → MKT-1			OK
-CELL03 → CELL01			OK
-CELL03 → AUX/EDGE		OK
-
-Ubuntu → MKT-1			OK
-Ubuntu → CELL01			OK

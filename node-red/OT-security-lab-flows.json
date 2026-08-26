@@ -1237,7 +1237,7 @@
         "id": "7ae43670cb373164",
         "type": "mqtt-broker",
         "name": "OT-MQTT",
-        "broker": "192.168.70.11",
+        "broker": "10.252.10.11",
         "port": 1883,
         "clientid": "",
         "autoConnect": true,
@@ -1418,7 +1418,7 @@
         }
     },
     {
-        "id": "0f28d8d251179b39",
+        "id": "e9a46b09f5a74ce3",
         "type": "global-config",
         "env": [],
         "modules": {

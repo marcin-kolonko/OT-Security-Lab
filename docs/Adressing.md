@@ -17,27 +17,27 @@ Network:	NAT DHCP
 Gateway:	NAT DHCP
 
 TRANSIT
-10.250.1.0/30       CELL-01
-10.250.2.0/30       CELL-02
-10.250.3.0/30       CELL-03
+10.250.1.0/30       CELL01
+10.250.2.0/30       CELL0x
+10.250.3.0/30       CELL0x
 ...
 
 CELL CONTROL
-10.251.1.0/26       CELL-01
-10.251.2.0/26       CELL-02
-10.251.3.0/26       CELL-03
+10.251.1.0/26       CELL01
+10.251.2.0/26       CELL0x
+10.251.3.0/26       CELL0x
 
-OT ZONES
-192.168.60.0/24     OT_Zone_2
-192.168.70.0/24     OT_Zone_1
+CELL ZONES
+192.168.60.0/24     CELL03
+192.168.70.0/24     CELL02
 
 2. MKT-1
 ---------
 
 ether1 (LAB-MGMT): 	10.250.0.5/24
-ether2 (OT2)		192.168.60.1/24
-ether3 (OT1)		192.168.70.1/24
-ether4 (CELL-01)	10.250.1.1/30
+ether2 (CELL03)		192.168.60.1/24
+ether3 (CELL02)		192.168.70.1/24
+ether4 (CELL01)		10.250.1.1/30
 ether5 (AUX/EDGE)	10.250.30.5/28
 ether6			-
 ether7			-
@@ -56,8 +56,8 @@ ROUTING:
 3. MKT-2:
 ----------
 
-ether1 (TRANSIT-CELL-01)10.250.1.2/30
-ether2 (CELL-01)	10.251.1.1/26
+ether1 (TRANSIT-CELL01)	10.250.1.2/30
+ether2 (CELL01)		10.251.1.1/26
 ether3			-
 ether4			-
 ether5			-
@@ -74,33 +74,33 @@ ROUTING:
 192.168.60.0/24    → 10.250.1.1
 192.168.70.0/24    → 10.250.1.1
 
-4. CELL-01
+4. CELL01 'SQUIRTLE' 
 ----------
 
 Network:		10.251.1.0/26
 Gateway:		10.251.1.1
 
-PLC01:			10.251.1.11/26		(Alpine Linux 3.18.4 + Python + MQTT)
-HMI:			10.251.1.12/26		(VPCS)
-Robot:			10.251.1.13/26		(VPCS)
+CELL01-PLC01:		10.251.1.11/26		(Alpine Linux 3.18.4 + Python + MQTT)
+CELL01-HMI01:		10.251.1.12/26		(VPCS)
+CELL01-ROB01:		10.251.1.13/26		(VPCS)
 
-5. OT_Zone_1
+5. CELL02 'PIKACHU'
 ------------
 
 Network:		192.168.70.0/24
 Gateway:		192.168.70.1
 
-PLC1			192.168.70.6/24		(VPCS)
-HMI1			192.168.70.10/24	(VPCS)
+CELL02-PLC01		192.168.70.6/24		(Alpine Linux 3.18.4 + Python + MQTT)
+CELL02-HMI01		192.168.70.10/24	(VPCS)
 OT-MQTT			192.168.70.11/24	(Ubuntu 24.04.1 LTS)
 
-6. OT_Zone_2
+6. CELL03 'CHARMANDER'
 ------------
 Network:		192.168.60.0/24
 Gateway:		192.168.60.1
 
-PLC2			192.168.60.10/24	(VPCS)
-HMI2			192.168.60.20/24	(VPCS)
+CELL03-PLC01		192.168.60.10/24	(Alpine Linux 3.18.4 + Python + MQTT)
+CELL03-HMI01		192.168.60.20/24	(VPCS)
 
 7. UBUNTU EDGE
 --------------
@@ -177,17 +177,17 @@ MKT-1
 11. Networking tests
 --------------------
 
-CELL-01 → MKT-1                 OK
-CELL-01 → AUX/EDGE              OK
+CELL01 → MKT-1			OK
+CELL01 → AUX/EDGE		OK
 
-OT_Zone_1 → MKT-1               OK
-OT_Zone_1 → CELL-01             OK
-OT_Zone_1 → AUX/EDGE            OK
-OT_Zone_1 → LAB-MGMT            BLOCKED
+CELL03 → MKT-1			OK
+CELL03 → CELL01			OK
+CELL03 → AUX/EDGE		OK
+CELL03 → LAB-MGMT		BLOCKED
 
-OT_Zone_2 → MKT-1               OK
-OT_Zone_2 → CELL-01             OK
-OT_Zone_2 → AUX/EDGE            OK
+CELL03 → MKT-1			OK
+CELL03 → CELL01			OK
+CELL03 → AUX/EDGE		OK
 
-Ubuntu → MKT-1                  OK
-Ubuntu → CELL-01                OK
+Ubuntu → MKT-1			OK
+Ubuntu → CELL01			OK

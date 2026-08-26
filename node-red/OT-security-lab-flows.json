@@ -1,0 +1,1428 @@
+[
+    {
+        "id": "f6f2187d.f17ca8",
+        "type": "tab",
+        "label": "OT Security Lab",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "3cc11d24.ff01a2",
+        "type": "comment",
+        "z": "f6f2187d.f17ca8",
+        "name": "WARNING: please check you have started this container with a volume that is mounted to /data\\n otherwise any flow changes are lost when you redeploy or upgrade the container\\n (e.g. upgrade to a more recent node-red docker image).\\n  If you are using named volumes you can ignore this warning.\\n Double click or see info side panel to learn how to start Node-RED in Docker to save your work",
+        "info": "\nTo start docker with a bind mount volume (-v option), for example:\n\n```\ndocker run -it -p 1880:1880 -v /home/user/node_red_data:/data --name mynodered nodered/node-red\n```\n\nwhere `/home/user/node_red_data` is a directory on your host machine where you want to store your flows.\n\nIf you do not do this then you can experiment and redploy flows, but if you restart or upgrade the container the flows will be disconnected and lost. \n\nThey will still exist in a hidden data volume, which can be recovered using standard docker techniques, but that is much more complex than just starting with a named volume as described above.",
+        "x": 350,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "3f8502cf2ca86d2a",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "Czujnik produktu",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "10",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 710,
+        "y": 40,
+        "wires": [
+            [
+                "973f65a544157492"
+            ]
+        ]
+    },
+    {
+        "id": "973f65a544157492",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Symulator",
+        "func": "\n/**\n* @param {number} min\n* @param {number} max\n*/\n\nfunction losuj(min, max) {\n    return Math.floor(Math.random() * (max - min + 1)) + min;\n}\n\nlet id = Math.floor(Math.random() * 10000);\n\n\nlet ok = Math.random() > 0.1;\n\nmsg.payload = {\n    produkt: id,\n    jakosc: ok ? \"OK\" : \"BRAK\",\n    czas: new Date().toISOString()\n};\n\nmsg.payload.temperatura = losuj(30, 58);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 100,
+        "wires": [
+            [
+                "4c2b868cc6125bf8",
+                "c7f9d7e2d7fb21eb",
+                "4ff5e63f02520079",
+                "3b670f9bd96a1a3e"
+            ]
+        ]
+    },
+    {
+        "id": "4c2b868cc6125bf8",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Licznik",
+        "func": "let count = context.get(\"count\") || 0;\n\ncount++;\n\ncontext.set(\"count\", count);\n\nmsg.payload = count;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1010,
+        "y": 100,
+        "wires": [
+            [
+                "45c9fca04cf9e26f"
+            ]
+        ]
+    },
+    {
+        "id": "45c9fca04cf9e26f",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "833b1e8822d37c4d",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "Wyprodukowane sztuki",
+        "label": "Wyprodukowane sztuki",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 1250,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "25f0a505a800b78c",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "833b1e8822d37c4d",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "Aktualna sztuka",
+        "label": "Aktualna sztuka",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 1220,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "c7f9d7e2d7fb21eb",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Licznik",
+        "func": "msg.payload = msg.payload.produkt;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1010,
+        "y": 220,
+        "wires": [
+            [
+                "25f0a505a800b78c"
+            ]
+        ]
+    },
+    {
+        "id": "4ff5e63f02520079",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Licznik",
+        "func": "msg.payload = msg.payload.jakosc;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1010,
+        "y": 340,
+        "wires": [
+            [
+                "72aca359c2e38915"
+            ]
+        ]
+    },
+    {
+        "id": "72aca359c2e38915",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "833b1e8822d37c4d",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "Aktualna sztuka stan",
+        "label": "Aktualna sztuka stan",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 1220,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "3b670f9bd96a1a3e",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Licznik",
+        "func": "msg.payload = msg.payload.czas;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 990,
+        "y": 460,
+        "wires": [
+            [
+                "c7c6250b817bbb4b"
+            ]
+        ]
+    },
+    {
+        "id": "c7c6250b817bbb4b",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "833b1e8822d37c4d",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "Aktualna sztuka czas",
+        "label": "Aktualna sztuka Czas produkcji",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 1220,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "f21a295c075a25e3",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "cell01/plc01/motor/speed",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7ae43670cb373164",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 320,
+        "wires": [
+            [
+                "32725020a2fe4370",
+                "fd3610a8a1e7dd54"
+            ]
+        ]
+    },
+    {
+        "id": "32725020a2fe4370",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "d75f7a8b7f91c4be",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "name": "Conveyor 1 motor speed",
+        "label": "Motor speed",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 450,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "13f1f38f5d56f9d6",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "cell01/plc01/motor/current",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7ae43670cb373164",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 380,
+        "wires": [
+            [
+                "b2fe30145b78026d"
+            ]
+        ]
+    },
+    {
+        "id": "6014c9d887e24876",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "cell01/plc01/motor/temperature",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7ae43670cb373164",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 440,
+        "wires": [
+            [
+                "2a1f902cf46284c8"
+            ]
+        ]
+    },
+    {
+        "id": "1e103066e1eedf01",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "cell01/plc01/belt/speed",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7ae43670cb373164",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 160,
+        "y": 500,
+        "wires": [
+            [
+                "3fd4c54ed9598133"
+            ]
+        ]
+    },
+    {
+        "id": "37698991f17144ec",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "cell01/plc01/sensor/product",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7ae43670cb373164",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 560,
+        "wires": [
+            [
+                "788ba71deca23dcc"
+            ]
+        ]
+    },
+    {
+        "id": "e43ced1731a8673e",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "cell01/plc01/state",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7ae43670cb373164",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 140,
+        "y": 620,
+        "wires": [
+            [
+                "f6943732cd81a8e8"
+            ]
+        ]
+    },
+    {
+        "id": "b2fe30145b78026d",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "d75f7a8b7f91c4be",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "name": "Conveyor 1 motor current",
+        "label": "Motor current",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 450,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "2a1f902cf46284c8",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "d75f7a8b7f91c4be",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "name": "Conveyor 1 motor temperature",
+        "label": "Motor temperature",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 470,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "3fd4c54ed9598133",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "d75f7a8b7f91c4be",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "name": "Conveyor 1 belt speed",
+        "label": "Belt speed",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 440,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "788ba71deca23dcc",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "d75f7a8b7f91c4be",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "name": "Conveyor 1 product",
+        "label": "Product",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 430,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "f6943732cd81a8e8",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "d75f7a8b7f91c4be",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "name": "Conveyor 1 state",
+        "label": "State",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 430,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "fd3610a8a1e7dd54",
+        "type": "ui-gauge",
+        "z": "f6f2187d.f17ca8",
+        "name": "Conveyor 1 RPM",
+        "group": "d75f7a8b7f91c4be",
+        "order": 0,
+        "value": "payload",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "gauge",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "units",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "value"
+            },
+            {
+                "from": "1300",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "value"
+            },
+            {
+                "from": "1600",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "value"
+            }
+        ],
+        "min": 0,
+        "max": "2000",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 430,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "66d0a1a018410ad7",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "cell02/plc01/motor/speed",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7ae43670cb373164",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 173.96875,
+        "y": 715,
+        "wires": [
+            [
+                "ac112d9fc7717534",
+                "0eebe331559105e3"
+            ]
+        ]
+    },
+    {
+        "id": "ac112d9fc7717534",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "33caef3d4ccb5cee",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "name": "Conveyor 2 motor speed",
+        "label": "Motor speed",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 450,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "74f4ee108b7c5726",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "cell02/plc01/motor/current",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7ae43670cb373164",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 780,
+        "wires": [
+            [
+                "641556778cea5152"
+            ]
+        ]
+    },
+    {
+        "id": "611e0d26a026f272",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "cell02/plc01/motor/temperature",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7ae43670cb373164",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 840,
+        "wires": [
+            [
+                "b3d6ce55d77305ec"
+            ]
+        ]
+    },
+    {
+        "id": "0a89d0ec7121c83e",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "cell02/plc01/belt/speed",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7ae43670cb373164",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 160,
+        "y": 900,
+        "wires": [
+            [
+                "b2a969d29d145444"
+            ]
+        ]
+    },
+    {
+        "id": "478257f4f92a4fd2",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "cell02/plc01/sensor/product",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7ae43670cb373164",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 960,
+        "wires": [
+            [
+                "be3fc3e31873c19f"
+            ]
+        ]
+    },
+    {
+        "id": "1104fa7124df97e0",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "cell02/plc01/state",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7ae43670cb373164",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 140,
+        "y": 1020,
+        "wires": [
+            [
+                "d42dc074640327ae"
+            ]
+        ]
+    },
+    {
+        "id": "641556778cea5152",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "33caef3d4ccb5cee",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "name": "Conveyor 2 motor current",
+        "label": "Motor current",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 450,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "b3d6ce55d77305ec",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "33caef3d4ccb5cee",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "name": "Conveyor 2 motor temperature",
+        "label": "Motor temperature",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 470,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "b2a969d29d145444",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "33caef3d4ccb5cee",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "name": "Conveyor 2 belt speed",
+        "label": "Belt speed",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 430,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "be3fc3e31873c19f",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "33caef3d4ccb5cee",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "name": "Conveyor 2 product",
+        "label": "Product",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 410,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "d42dc074640327ae",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "33caef3d4ccb5cee",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "name": "Conveyor 2 state",
+        "label": "State",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 410,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "0eebe331559105e3",
+        "type": "ui-gauge",
+        "z": "f6f2187d.f17ca8",
+        "name": "Conveyor 2 RPM",
+        "group": "33caef3d4ccb5cee",
+        "order": 0,
+        "value": "payload",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "gauge",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "units",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "value"
+            },
+            {
+                "from": "1300",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "value"
+            },
+            {
+                "from": "1600",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "value"
+            }
+        ],
+        "min": 0,
+        "max": "2000",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 430,
+        "y": 720,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bce4cec1bf5cbd13",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "cell03/plc01/motor/speed",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7ae43670cb373164",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 1100,
+        "wires": [
+            [
+                "8a74b0574251f32d",
+                "d68c2a03119f8dfe"
+            ]
+        ]
+    },
+    {
+        "id": "8a74b0574251f32d",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "e77448cb853fa427",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "name": "Conveyor 3 motor speed",
+        "label": "Motor speed",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 446.03125,
+        "y": 1145,
+        "wires": []
+    },
+    {
+        "id": "47f414fa5ea42bc3",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "cell03/plc01/motor/current",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7ae43670cb373164",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 166.03125,
+        "y": 1165,
+        "wires": [
+            [
+                "f973a4abad336ab3"
+            ]
+        ]
+    },
+    {
+        "id": "c191a20ed9dedb43",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "cell03/plc01/motor/temperature",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7ae43670cb373164",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 186.03125,
+        "y": 1225,
+        "wires": [
+            [
+                "be52e1f87221b2c6"
+            ]
+        ]
+    },
+    {
+        "id": "121e69ae92bdd788",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "cell03/plc01/belt/speed",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7ae43670cb373164",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 156.03125,
+        "y": 1285,
+        "wires": [
+            [
+                "6b0404a0ee1bb89b"
+            ]
+        ]
+    },
+    {
+        "id": "322fbca806e44fda",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "cell03/plc01/sensor/product",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7ae43670cb373164",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 166.03125,
+        "y": 1345,
+        "wires": [
+            [
+                "c55538bfdb160497"
+            ]
+        ]
+    },
+    {
+        "id": "6540b65bc984e28b",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "cell03/plc01/state",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7ae43670cb373164",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 136.03125,
+        "y": 1405,
+        "wires": [
+            [
+                "83e1f432ffdf0377"
+            ]
+        ]
+    },
+    {
+        "id": "f973a4abad336ab3",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "e77448cb853fa427",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "name": "Conveyor 3 motor current",
+        "label": "Motor current",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 446.03125,
+        "y": 1185,
+        "wires": []
+    },
+    {
+        "id": "be52e1f87221b2c6",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "e77448cb853fa427",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "name": "Conveyor 3 motor temperature",
+        "label": "Motor temperature",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 486.03125,
+        "y": 1225,
+        "wires": []
+    },
+    {
+        "id": "6b0404a0ee1bb89b",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "e77448cb853fa427",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "name": "Conveyor 3 belt speed",
+        "label": "Belt speed",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 426.03125,
+        "y": 1285,
+        "wires": []
+    },
+    {
+        "id": "c55538bfdb160497",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "e77448cb853fa427",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "name": "Conveyor 3 product",
+        "label": "Product",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 406.03125,
+        "y": 1345,
+        "wires": []
+    },
+    {
+        "id": "83e1f432ffdf0377",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "e77448cb853fa427",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "name": "Conveyor 3 state",
+        "label": "State",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 406.03125,
+        "y": 1405,
+        "wires": []
+    },
+    {
+        "id": "d68c2a03119f8dfe",
+        "type": "ui-gauge",
+        "z": "f6f2187d.f17ca8",
+        "name": "Conveyor 3 RPM",
+        "group": "e77448cb853fa427",
+        "order": 0,
+        "value": "payload",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "gauge",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "units",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "value"
+            },
+            {
+                "from": "1300",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "value"
+            },
+            {
+                "from": "1600",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "value"
+            }
+        ],
+        "min": 0,
+        "max": "2000",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 450,
+        "y": 1100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "833b1e8822d37c4d",
+        "type": "ui-group",
+        "name": "Detal 1",
+        "page": "c276cc11a7ba796b",
+        "width": 6,
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "7ae43670cb373164",
+        "type": "mqtt-broker",
+        "name": "OT-MQTT",
+        "broker": "192.168.70.11",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "d75f7a8b7f91c4be",
+        "type": "ui-group",
+        "name": "Conveyor Line 1",
+        "page": "d90fe9ddda0e6ba1",
+        "width": "4",
+        "height": "3",
+        "order": -1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "33caef3d4ccb5cee",
+        "type": "ui-group",
+        "name": "Conveyor Line 2",
+        "page": "d90fe9ddda0e6ba1",
+        "width": "4",
+        "height": "3",
+        "order": -1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "e77448cb853fa427",
+        "type": "ui-group",
+        "name": "Conveyor Line 3",
+        "page": "d90fe9ddda0e6ba1",
+        "width": "4",
+        "height": "3",
+        "order": -1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "c276cc11a7ba796b",
+        "type": "ui-page",
+        "name": "Page 1",
+        "ui": "c65303da21dd69e7",
+        "path": "/page1",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "751dd38103efe365",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": 0,
+                "cols": 3
+            },
+            {
+                "name": "Tablet",
+                "px": 576,
+                "cols": 6
+            },
+            {
+                "name": "Small Desktop",
+                "px": 768,
+                "cols": 9
+            },
+            {
+                "name": "Desktop",
+                "px": 1024,
+                "cols": 12
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "d90fe9ddda0e6ba1",
+        "type": "ui-page",
+        "name": "Conveyors",
+        "ui": "c65303da21dd69e7",
+        "path": "/Conveyor",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "751dd38103efe365",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": -1,
+        "className": "",
+        "visible": true,
+        "disabled": false
+    },
+    {
+        "id": "c65303da21dd69e7",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "751dd38103efe365",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "0f28d8d251179b39",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@flowfuse/node-red-dashboard": "1.30.2"
+        }
+    }
+]

@@ -162,3 +162,16 @@ NATSwitch
 
 Ethernet / LAN
 192.168.50.2/24
+
+
+12. OPNSENSE
+------------------
+
+NIC1 → WAN → LAB-MGMT
+NIC2 → LAN/OT → MKT-1 ether2
+NIC3 → DMZ → 10.250.50.0/24
+NIC4 → rezerwa
+
+WAN       → 10.250.0.x/24
+LAN/OT    → 10.250.40.2/30
+DMZ       → 10.250.50.1/24

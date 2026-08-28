@@ -13,7 +13,7 @@
 
 # GNS3 temporary files
 *.gns3_lock
-/gns/project-files/
+/gns3/project-files/
 
 # OS files
 .DS_Store

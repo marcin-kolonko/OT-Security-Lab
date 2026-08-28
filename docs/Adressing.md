@@ -137,9 +137,9 @@ MQTT / Mosquitto — TCP 1883
 
 Ubuntu
 
-eth0    Internet / NAT       DHCP
-eth1    LAB-MGMT             10.250.0.10/24
-eth2    AUX/EDGE             10.250.30.10/28
+eth0    Internet / NAT       DHCP			- usunięta
+eth1    LAB-MGMT             10.250.0.10/24 - usunięta
+eth2    AUX/EDGE             10.250.30.10/28- zmiana na eth0 i 10.250.50.10/24 podpięta w DMZ
 
 
 10. GNS3

@@ -14,6 +14,7 @@
 # GNS3 temporary files
 *.gns3_lock
 /gns3/project-files/
+/lab-notes/
 
 # OS files
 .DS_Store

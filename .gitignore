@@ -19,3 +19,8 @@
 # OS files
 .DS_Store
 Thumbs.db
+
+# Network captures
+*.pcap
+*.pcapng
+*.cap

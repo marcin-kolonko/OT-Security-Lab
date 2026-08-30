@@ -40,7 +40,7 @@ flowchart TB
     CORE1 --- OTMQTT
 ```
 
-![OT Security Lab Architecture](diagrams/topology.svg)
+![OT Security Lab Architecture](diagrams/Topology.svg)
 
 The environment is designed around a simplified separation between enterprise IT and industrial OT networks.
 

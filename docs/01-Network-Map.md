@@ -51,7 +51,7 @@
 | `ether6` | - | - | `-` | `-` | Reserve |
 | `ether7.102` | **VLAN 102** | OT-CELL02 | `10.251.2.1` | `/24` | Gateway for OT Cell01 |
 | `ether7.103` | **VLAN 103** | OT-CELL03 | `10.251.3.1` | `/24` | Gateway for OT Cell03 |
-| `ether7.210` | **VLAN 210** | OT-MQTT | `10.252.10.1` | `/26` | Gateway for MQTT broker |
+| `ether7.210` | **VLAN 210** | OT-SRV-MQTT | `10.252.10.1` | `/26` | Gateway for MQTT broker |
 | `ether8` | - | - | `-` | `-` | Reserve |
 
 ---

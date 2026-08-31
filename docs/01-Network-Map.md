@@ -1,21 +1,21 @@
 # Network documentation of OT/ICS lab (IPAM)
 
-## 🏢 IT (Office)
+## IT (Office)
 | Hostname | IP Address | Gateway | Description / Function |
 | :--- | :--- | :--- | :--- |
 | `IT-PC-Host01` | `10.250.0.1/24` | `-` | Main Host PC Windows 11 Pro |
 
 ---
 
-## 🛡️ DMZ (Buffer)
+## DMZ (Buffer)
 | Hostname | IP Address | Mask / CIDR | Gateway | Description / Function |
 | :--- | :--- | :--- | :--- | :--- |
-| `DMZ-SRV-NodeRed01` | `10.250.50.10` | `/24` | `10.250.50.1` | Serwer Node-RED |
+| `DMZ-SRV-NodeRed01` | `10.250.50.10` | `/24` | `10.250.50.1` | Server Node-RED |
 
 ---
 
 
-## 🏭 OT Zone (ICS)
+## OT Zone (ICS)
 | Hostname | IP Address | Mask / CIDR |  Gateway | Description / Function |
 | :--- | :--- | :--- | :--- | :--- |
 | `OT-SRV-MQTT-01` | `10.252.10.11` | `/26` | `10.252.10.1` | MQTT Broker (Ubuntu Linux) |
@@ -33,10 +33,10 @@
 ### `DMZ-FW-EDGE-01` OPNsense 26.1
 | Interface / Port | Zone / Name | IP address | Mask / CIDR | Description / Function |
 | :--- | :--- | :--- | :--- |:--- |
-| `vtnet0` (WAN) | Internet / Zewnętrzna | `10.250.0.5`  | `/24` | Connection to IT and Internet |
+| `vtnet0` (WAN) | Internet | `10.250.0.5`  | `/24` | Connection to IT and Internet |
 | `vtnet1` (LAN) | OT / Industry | `10.250.40.2` | `/30` | Gateway to Industrial Network / OT |
 | `vtnet2` (OPT1 / DMZ) | DMZ / Buffer zone | `10.250.50.1` | `/24` | Gateway to DMZ servers (Node-RED, Jump Server) |
-| `vtnet3` (OPT2) | `-` | `-` | `-` | `-` |
+| `vtnet3` (OPT2) | - | `-` | `-` | - |
 
 ---
 

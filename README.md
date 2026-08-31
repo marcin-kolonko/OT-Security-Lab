@@ -222,8 +222,6 @@ The structure will evolve together with the project.
 │   └── ...
 ├── python_plc_sim/
 │   └── ...
-├── wireshark/
-│   └── ...
 ├── ...
 └── README.md
 
@@ -262,6 +260,7 @@ The project is intentionally developed in stages rather than attempting to build
 - [x] Multiple OT cells
 - [x] MQTT / Node-RED environment
 - [x] PLC / HMI / robot simulation
+- [ ] Firewall rules for MikroTik and OPNsense - Hardening.
 - [ ] Engineering Station
 - [ ] Jump Server
 - [ ] NTP infrastructure

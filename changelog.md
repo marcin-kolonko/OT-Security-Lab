@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-08-31
+### Added.
+- Hardening of MikroTik CHR core/dist routers. All necessary firewall rules for now were applied.
+
 ## [0.1.0] - 2026-08-30
 ### Added.
 - Configuration layout for OPNsense firewall and MikroTik CHR core/dist routers.

@@ -1,0 +1,26 @@
+d5bce741-cf44-40e4-9ee2-298a096e4743
+    Bridge br0
+        datapath_type: netdev
+        Port eth3
+            tag: 103
+            Interface eth3
+        Port br0
+            Interface br0
+                type: internal
+        Port eth6
+            tag: 210
+            Interface eth6
+        Port eth4
+            Interface eth4
+        Port eth7
+            Interface eth7
+        Port eth1
+            Interface eth1
+        Port eth2
+            tag: 102
+            Interface eth2
+        Port eth5
+            Interface eth5
+        Port eth0
+            trunks: [102, 103, 210]
+            Interface eth0

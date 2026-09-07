@@ -1,6 +1,6 @@
 # OT Security Lab
 
-A home-built OT/ICS cybersecurity laboratory designed to explore industrial network architecture, IT/OT segmentation, monitoring, detection and security operations in a controlled environment.
+A self-built OT/ICS cybersecurity laboratory designed to explore industrial network architecture, IT/OT segmentation, monitoring, detection and security operations in a controlled environment.
 
 The lab is built with [GNS3](https://www.gns3.com/) and currently runs on a small physical lab host. It simulates an environment combining enterprise IT, DMZ and multiple industrial OT cells with firewalls, routing, VLAN segmentation, industrial communication and simulated PLC systems.
 
@@ -27,15 +27,21 @@ flowchart TB
     C2["OT-CELL02"]
     C3["OT-CELL03"]
     OTMQTT["OT-SRV-MQTT"]
+	OTENG1{"OT-ENG-01"]
     NODERED["DMZ-Node-Red"]
+	JUMP["DMZ-SRV-JUMP"]
+	NTP{"DMZ-SRV-NTP"]
     IT --- FW
     FW --- DMZ
     FW --- CORE1
     DMZ --- NODERED
+	DMZ --- JUMP
+	DMZ --- NTP
 
     CORE1 --- DIST
     CORE1 --- C2
     CORE1 --- C3
+	CORE1 --- OTENG1
     DIST --- C1
     CORE1 --- OTMQTT
 ```
@@ -46,7 +52,7 @@ The environment is designed around a simplified separation between enterprise IT
 
 The current architecture includes:
 
-- IT / Office network
+- IT / Office network (one host)
 - DMZ
 - OPNsense firewall
 - MikroTik CHR as core router
@@ -56,6 +62,9 @@ The current architecture includes:
 - Simulated PLCs using Python script
 - VLAN-based segmentation
 - Inter-zone routing
+- NTP Server
+- Dedicated Engineering Station inside the OT environment
+- Jump Server
 
 The architecture will evolve as additional monitoring and security components are introduced.
 
@@ -114,6 +123,15 @@ Additional dedicated infrastructure and security zones may be introduced as the 
 - Simulated PLCs
 - MQTT broker
 
+### OT Monitoring & Visualization
+
+- MQTT broker for industrial telemetry
+- Node-RED dashboard for monitoring and visualization
+- Python-based PLC/process simulation
+
+Node-RED is currently used only for monitoring and visualization of OT data. 
+The dashboard does not provide direct control over PLCs or industrial equipment.
+
 ### Virtualization
 
 The current laboratory runs on a small physical host:
@@ -136,11 +154,7 @@ Not everything can be realistically run on the current hardware, especially when
 The following components are planned for future stages of the laboratory:
 
 - IDS using Zeek and/or Suricata
-- Infrastructure services
-  - NTP
-  - Syslog
-- Dedicated Engineering Station inside the OT environment
-- Jump Server
+- Syslog
 - Additional monitoring and logging
 - Security event collection
 - Detection and investigation workflows
@@ -201,6 +215,11 @@ The project currently involves or plans to involve:
 - VPN tunneling
 
 ---
+## Documentation
+
+Detailed communication requirements and allowed network flows are documented in the [03-Communication-Matrix](docs/03-Communication-Matrix.md).
+
+The matrix defines expected communication between IT, DMZ and OT zones and follows a default-deny approach where only explicitly required communication is permitted.
 
 ## Repository Structure
 
@@ -259,11 +278,12 @@ The project is intentionally developed in stages rather than attempting to build
 - [x] VLAN segmentation
 - [x] Multiple OT cells
 - [x] MQTT / Node-RED environment
-- [x] PLC / HMI / robot simulation
-- [ ] Firewall rules for MikroTik and OPNsense - Hardening.
-- [ ] Engineering Station
-- [ ] Jump Server
-- [ ] NTP infrastructure
+- [x] Python-based industrial process / PLC simulation
+- [x] Firewall policy implementation and network hardening
+- [x] Engineering Station
+- [x] Jump Server
+- [x] VPN tunneling
+- [x] NTP infrastructure
 - [ ] Centralized Syslog
 - [ ] Zeek / Suricata IDS
 - [ ] Security monitoring
@@ -272,10 +292,9 @@ The project is intentionally developed in stages rather than attempting to build
 - [ ] Dedicated SOC / SIEM host
 - [ ] Wazuh integration
 - [ ] Expanded OT/ICS attack and detection scenarios
-- [ ] VPN tunneling
-- [ ] Modbus TCP simulator
-- [ ] OPC UA simulator
 - [ ] Additional OT/ICS protocol simulators
+  - [ ] OPC UA
+  - [ ] Modbus TCP
   - [ ] S7comm
   - [ ] DNP3
   - [ ] BACnet/IP

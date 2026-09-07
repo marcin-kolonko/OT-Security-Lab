@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <opnsense>
-  <trigger_initial_wizard/>
   <theme>opnsense</theme>
   <sysctl version="1.0.2" persisted_at="1787852946.59" description="System Tunables">
     <item/>
@@ -14,7 +13,7 @@
     <optimization>normal</optimization>
     <hostname>OPNsense</hostname>
     <domain>internal</domain>
-    <dnsallowoverride>1</dnsallowoverride>
+    <dnsallowoverride>0</dnsallowoverride>
     <dnsallowoverride_exclude/>
     <group uuid="de0ff917-df0d-47a7-bec7-ec2574f39993">
       <gid>1999</gid>
@@ -75,6 +74,16 @@
       <subscription/>
       <reboot>0</reboot>
     </firmware>
+    <language>en_US</language>
+    <dnsserver/>
+    <dns1gw>none</dns1gw>
+    <dns2gw>none</dns2gw>
+    <dns3gw>none</dns3gw>
+    <dns4gw>none</dns4gw>
+    <dns5gw>none</dns5gw>
+    <dns6gw>none</dns6gw>
+    <dns7gw>none</dns7gw>
+    <dns8gw>none</dns8gw>
   </system>
   <interfaces>
     <wan>
@@ -121,7 +130,28 @@
     </opt1>
     <opt2>
       <if>vtnet3</if>
+      <descr/>
       <enable>1</enable>
+      <spoofmac/>
+      <ipaddr>dhcp</ipaddr>
+      <dhcphostname/>
+      <alias-address/>
+      <alias-subnet>32</alias-subnet>
+      <dhcprejectfrom/>
+      <adv_dhcp_pt_timeout/>
+      <adv_dhcp_pt_retry/>
+      <adv_dhcp_pt_select_timeout/>
+      <adv_dhcp_pt_reboot/>
+      <adv_dhcp_pt_backoff_cutoff/>
+      <adv_dhcp_pt_initial_interval/>
+      <adv_dhcp_pt_values>SavedCfg</adv_dhcp_pt_values>
+      <adv_dhcp_send_options/>
+      <adv_dhcp_request_options/>
+      <adv_dhcp_required_options/>
+      <adv_dhcp_option_modifiers/>
+      <adv_dhcp_config_advanced/>
+      <adv_dhcp_config_file_override/>
+      <adv_dhcp_config_file_override_path/>
     </opt2>
   </interfaces>
   <dnsmasq version="1.0.8" persisted_at="1787852945.84" description="Dnsmasq DNS and DHCP">
@@ -166,7 +196,35 @@
   <nat>
     <outbound>
       <mode>advanced</mode>
-      <rule/>
+      <rule>
+        <source>
+          <network>10.250.50.0/24</network>
+        </source>
+        <destination>
+          <any>1</any>
+        </destination>
+        <descr/>
+        <category/>
+        <interface>opt2</interface>
+        <tag/>
+        <tagged/>
+        <poolopts/>
+        <poolopts_sourcehashkey/>
+        <ipprotocol>inet</ipprotocol>
+        <created>
+          <username>root@10.250.0.1</username>
+          <time>1788709397.40</time>
+          <description>/firewall_nat_out_edit.php made changes</description>
+        </created>
+        <target/>
+        <targetip_subnet>0</targetip_subnet>
+        <sourceport/>
+        <updated>
+          <username>root@10.250.0.1</username>
+          <time>1788714304.41</time>
+          <description>/firewall_nat_out_edit.php made changes</description>
+        </updated>
+      </rule>
     </outbound>
   </nat>
   <filter>
@@ -197,6 +255,33 @@
         <description>/firewall_rules_edit.php made changes</description>
       </created>
     </rule>
+    <rule uuid="d4909294-dcf6-442c-8e37-f65bb461d644">
+      <type>pass</type>
+      <interface>wan</interface>
+      <ipprotocol>inet</ipprotocol>
+      <statetype>keep state</statetype>
+      <descr>Allowing GUI access from a Windows 11 Pro host on Portainer</descr>
+      <direction>in</direction>
+      <quick>1</quick>
+      <protocol>tcp</protocol>
+      <source>
+        <address>10.250.0.1/32</address>
+      </source>
+      <destination>
+        <address>10.250.50.10/32</address>
+        <port>9000</port>
+      </destination>
+      <updated>
+        <username>root@10.250.0.1</username>
+        <time>1788295229.95</time>
+        <description>/firewall_rules_edit.php made changes</description>
+      </updated>
+      <created>
+        <username>root@10.250.0.1</username>
+        <time>1788295208.35</time>
+        <description>/firewall_rules_edit.php made changes</description>
+      </created>
+    </rule>
     <rule uuid="f5416f72-9dcf-4471-9b75-2a3768e6ac11">
       <type>pass</type>
       <interface>wan</interface>
@@ -221,6 +306,60 @@
       <created>
         <username>root@10.250.0.1</username>
         <time>1787948131.03</time>
+        <description>/firewall_rules_edit.php made changes</description>
+      </created>
+    </rule>
+    <rule uuid="85eb0d53-a366-43e4-894b-f85ab4b0cd92">
+      <type>pass</type>
+      <interface>wan</interface>
+      <ipprotocol>inet</ipprotocol>
+      <statetype>keep state</statetype>
+      <descr>Allowing SSH access from a Windows 11 Pro to Jump server</descr>
+      <direction>in</direction>
+      <quick>1</quick>
+      <protocol>tcp</protocol>
+      <source>
+        <address>10.250.0.1/32</address>
+      </source>
+      <destination>
+        <address>10.250.50.20/32</address>
+        <port>22</port>
+      </destination>
+      <updated>
+        <username>root@10.250.0.1</username>
+        <time>1788455939.10</time>
+        <description>/firewall_rules_edit.php made changes</description>
+      </updated>
+      <created>
+        <username>root@10.250.0.1</username>
+        <time>1788455939.10</time>
+        <description>/firewall_rules_edit.php made changes</description>
+      </created>
+    </rule>
+    <rule uuid="7976a8dd-9902-4c3e-9127-bf9b7197eb54">
+      <type>pass</type>
+      <interface>wan</interface>
+      <ipprotocol>inet</ipprotocol>
+      <statetype>keep state</statetype>
+      <descr>Allowing VPN Tunneling access from a Windows 11 Pro to Jump server</descr>
+      <direction>in</direction>
+      <quick>1</quick>
+      <protocol>udp</protocol>
+      <source>
+        <address>10.250.0.1/32</address>
+      </source>
+      <destination>
+        <address>10.250.50.20/32</address>
+        <port>51820</port>
+      </destination>
+      <updated>
+        <username>root@10.250.0.1</username>
+        <time>1788699318.14</time>
+        <description>/firewall_rules_edit.php made changes</description>
+      </updated>
+      <created>
+        <username>root@10.250.0.1</username>
+        <time>1788699318.14</time>
         <description>/firewall_rules_edit.php made changes</description>
       </created>
     </rule>
@@ -280,6 +419,7 @@
       <interface>opt1</interface>
       <ipprotocol>inet</ipprotocol>
       <statetype>keep state</statetype>
+      <descr>Requesting data from MQTT broker</descr>
       <direction>in</direction>
       <quick>1</quick>
       <protocol>tcp</protocol>
@@ -292,12 +432,120 @@
       </destination>
       <updated>
         <username>root@10.250.0.1</username>
-        <time>1787950107.10</time>
+        <time>1788381273.37</time>
         <description>/firewall_rules_edit.php made changes</description>
       </updated>
       <created>
         <username>root@10.250.0.1</username>
         <time>1787950061.54</time>
+        <description>/firewall_rules_edit.php made changes</description>
+      </created>
+    </rule>
+    <rule uuid="69f2541d-8aed-4f76-8073-d3f42104e18d">
+      <type>pass</type>
+      <interface>opt1</interface>
+      <ipprotocol>inet</ipprotocol>
+      <statetype>keep state</statetype>
+      <descr>Connection Jump Server to Engineering Station</descr>
+      <direction>in</direction>
+      <quick>1</quick>
+      <protocol>tcp</protocol>
+      <source>
+        <address>10.250.50.20/24</address>
+      </source>
+      <destination>
+        <address>10.252.0.10/26</address>
+        <port>22</port>
+      </destination>
+      <updated>
+        <username>root@10.250.0.1</username>
+        <time>1788550840.42</time>
+        <description>/firewall_rules_edit.php made changes</description>
+      </updated>
+      <created>
+        <username>root@10.250.0.1</username>
+        <time>1788550840.42</time>
+        <description>/firewall_rules_edit.php made changes</description>
+      </created>
+    </rule>
+    <rule uuid="a4bb2643-e89a-4fc5-9116-65bbe63df4db">
+      <type>pass</type>
+      <interface>opt1</interface>
+      <ipprotocol>inet</ipprotocol>
+      <statetype>keep state</statetype>
+      <descr>Connection with Remote desktop through  Jump Server to Engineering Station</descr>
+      <direction>in</direction>
+      <quick>1</quick>
+      <protocol>tcp</protocol>
+      <source>
+        <address>10.250.50.20/24</address>
+      </source>
+      <destination>
+        <address>10.252.0.10/26</address>
+        <port>3389</port>
+      </destination>
+      <updated>
+        <username>root@10.250.0.1</username>
+        <time>1788692510.29</time>
+        <description>/firewall_rules_edit.php made changes</description>
+      </updated>
+      <created>
+        <username>root@10.250.0.1</username>
+        <time>1788692510.29</time>
+        <description>/firewall_rules_edit.php made changes</description>
+      </created>
+    </rule>
+    <rule uuid="d02dd428-2186-4f13-beea-7d3be3523dd7">
+      <type>pass</type>
+      <interface>opt1</interface>
+      <ipprotocol>inet</ipprotocol>
+      <statetype>keep state</statetype>
+      <descr>Allow NTP synchronization with external time servers</descr>
+      <direction>in</direction>
+      <quick>1</quick>
+      <protocol>udp</protocol>
+      <source>
+        <address>10.250.50.25/24</address>
+      </source>
+      <destination>
+        <any>1</any>
+        <port>123</port>
+      </destination>
+      <updated>
+        <username>root@10.250.0.1</username>
+        <time>1788713359.31</time>
+        <description>/firewall_rules_edit.php made changes</description>
+      </updated>
+      <created>
+        <username>root@10.250.0.1</username>
+        <time>1788381246.88</time>
+        <description>/firewall_rules_edit.php made changes</description>
+      </created>
+    </rule>
+    <rule uuid="2dc4a064-b687-4f94-b10c-87e336c763b8">
+      <type>pass</type>
+      <interface>opt1</interface>
+      <ipprotocol>inet</ipprotocol>
+      <statetype>keep state</statetype>
+      <descr>Allow resolve DNS</descr>
+      <direction>in</direction>
+      <quick>1</quick>
+      <protocol>udp</protocol>
+      <source>
+        <address>10.250.50.25/24</address>
+      </source>
+      <destination>
+        <network>(self)</network>
+        <port>53</port>
+      </destination>
+      <updated>
+        <username>root@10.250.0.1</username>
+        <time>1788714429.60</time>
+        <description>/firewall_rules_edit.php made changes</description>
+      </updated>
+      <created>
+        <username>root@10.250.0.1</username>
+        <time>1788714374.34</time>
         <description>/firewall_rules_edit.php made changes</description>
       </created>
     </rule>
@@ -308,7 +556,7 @@
   <revision>
     <username>root@10.250.0.1</username>
     <description>/firewall_rules_edit.php made changes</description>
-    <time>1787950107.20</time>
+    <time>1788714429.69</time>
   </revision>
   <OPNsense>
     <radvd version="1.0.0" persisted_at="1787852944.48" description="Radvd configuration"/>
@@ -933,11 +1181,35 @@
     <password/>
     <syncitems/>
   </hasync>
-  <staticroutes version="1.0.0" persisted_at="1787949956.77" description="Static routes">
-    <route uuid="40061e8e-5b34-406d-9211-cc423d93fd61">
-      <network>10.252.10.11/26</network>
+  <staticroutes version="1.0.0" persisted_at="1788550557.55" description="Static routes">
+    <route uuid="06396823-703a-4811-abbf-8960c40d3dd5">
+      <network>10.251.1.0/26</network>
+      <gateway>MKT-1</gateway>
+      <descr>Route to CELL01</descr>
+      <disabled>0</disabled>
+    </route>
+    <route uuid="ec9ab060-3d21-4a10-b832-c96e66567333">
+      <network>10.251.2.0/24</network>
+      <gateway>MKT-1</gateway>
+      <descr>Route to CELL02</descr>
+      <disabled>0</disabled>
+    </route>
+    <route uuid="d0d22bd2-bd0c-40fd-9c34-28054075a27d">
+      <network>10.251.3.0/24</network>
+      <gateway>MKT-1</gateway>
+      <descr>Route to CELL03</descr>
+      <disabled>0</disabled>
+    </route>
+    <route uuid="ed1c4bb1-a3ec-4c76-a8c4-9679b2ae080f">
+      <network>10.252.10.0/26</network>
       <gateway>MKT-1</gateway>
       <descr>Route to MQTT broker</descr>
+      <disabled>0</disabled>
+    </route>
+    <route uuid="99c9052e-f259-438f-8d30-f9ba22f12fb6">
+      <network>10.252.0.0/26</network>
+      <gateway>MKT-1</gateway>
+      <descr>Route to OT-ENG-01</descr>
       <disabled>0</disabled>
     </route>
   </staticroutes>

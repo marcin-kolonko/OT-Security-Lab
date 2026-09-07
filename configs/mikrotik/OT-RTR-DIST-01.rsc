@@ -1,5 +1,4 @@
-# 2026-08-31 20:49:09 by RouterOS 7.22.1
-# system id = /LyX9R3CPkB
+# 2026-09-07 19:35:01 by RouterOS 7.22.1
 #
 /interface ethernet
 set [ find default-name=ether1 ] comment="OT Zone - Uplink to OT-RTR-CORE-01" disable-running-check=no
@@ -29,3 +28,7 @@ add dst-address=10.251.3.0/24 gateway=10.250.1.1
 add dst-address=10.251.2.0/24 gateway=10.250.1.1
 add dst-address=10.252.10.0/26 gateway=10.250.1.1
 add dst-address=10.250.40.0/30 gateway=10.250.1.1
+add dst-address=10.252.0.0/26 gateway=10.250.1.1
+add dst-address=10.250.50.0/24 gateway=10.250.1.1
+/system identity
+set name=OT-RTR-DIST-01

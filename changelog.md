@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-09-07
+### Added.
+- Dedicated Jump Server in the DMZ.
+- Dedicated OT Engineering Station.
+- WireGuard VPN access through the Jump Server.
+- Secure administrative access from the Jump Server to the OT Engineering Station using SSH and RDP.
+- Dedicated NTP infrastructure for time synchronization.
+- Corresponding firewall rules and routing between IT, DMZ and OT zones.
+- Updated communication flows in the Communication Matrix.
+- Updated the lab topology and project documentation.
+### Security:
+- Implemented a controlled administration path from IT to the OT environment through the DMZ Jump Server.
+- Restricted direct IT-to-OT administrative access.
+- Documented explicitly permitted communication flows.
+- Continued applying a default-deny approach between security zones.
+### Documentation:
+- Updated README.md.
+- docs/Communication-Matrix.md.
+- Updated network architecture documentation to reflect the new administration and infrastructure components.
+
 ## [0.1.1] - 2026-08-31
 ### Added.
 - Hardening of MikroTik CHR core/dist routers. All necessary firewall rules for now were applied.

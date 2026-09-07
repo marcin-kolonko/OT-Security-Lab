@@ -27,10 +27,10 @@ flowchart TB
     C2["OT-CELL02"]
     C3["OT-CELL03"]
     OTMQTT["OT-SRV-MQTT"]
-	OTENG1{"OT-ENG-01"]
+	OTENG1["OT-ENG-01"]
     NODERED["DMZ-Node-Red"]
 	JUMP["DMZ-SRV-JUMP"]
-	NTP{"DMZ-SRV-NTP"]
+	NTP["DMZ-SRV-NTP"]
     IT --- FW
     FW --- DMZ
     FW --- CORE1

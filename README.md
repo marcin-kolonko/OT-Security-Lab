@@ -26,7 +26,7 @@ flowchart TB
     C1["OT-CELL01"]
     C2["OT-CELL02"]
     C3["OT-CELL03"]
-    OTMQTT["OT-SRV-MQTT"]
+    OTEDGE["OT-SRV-EDGE-01"]
 	OTENG1["OT-ENG-01"]
     NODERED["DMZ-Node-Red"]
 	JUMP["DMZ-SRV-JUMP"]
@@ -43,7 +43,7 @@ flowchart TB
     CORE1 --- C3
 	CORE1 --- OTENG1
     DIST --- C1
-    CORE1 --- OTMQTT
+    CORE1 --- OTEDGE
 ```
 
 ![OT Security Lab Architecture](diagrams/Topology.svg)
@@ -59,7 +59,7 @@ The current architecture includes:
 - Multiple OT cells
 - MQTT broker
 - Node-RED
-- Simulated PLCs using Python script
+- Simulated PLCs using Python script and MQTT/Modbus TCP communication
 - VLAN-based segmentation
 - Inter-zone routing
 - NTP Server
@@ -129,8 +129,9 @@ Additional dedicated infrastructure and security zones may be introduced as the 
 - Node-RED dashboard for monitoring and visualization
 - Python-based PLC/process simulation
 
-Node-RED is currently used only for monitoring and visualization of OT data. 
+Node-RED is used for monitoring and visualization of OT data.
 The dashboard does not provide direct control over PLCs or industrial equipment.
+Besides this an instance of Node_RED on OT-SRV-EDGE-01 is used for translating Modbus TCP from OT-CELL01-PLC-01 to MQTT. 
 
 ### Virtualization
 
@@ -284,6 +285,7 @@ The project is intentionally developed in stages rather than attempting to build
 - [x] Jump Server
 - [x] VPN tunneling
 - [x] NTP infrastructure
+- [x] Modbus TCP
 - [ ] Centralized Syslog
 - [ ] Zeek / Suricata IDS
 - [ ] Security monitoring
@@ -294,7 +296,6 @@ The project is intentionally developed in stages rather than attempting to build
 - [ ] Expanded OT/ICS attack and detection scenarios
 - [ ] Additional OT/ICS protocol simulators
   - [ ] OPC UA
-  - [ ] Modbus TCP
   - [ ] S7comm
   - [ ] DNP3
   - [ ] BACnet/IP

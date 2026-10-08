@@ -1,4 +1,4 @@
-# 2026-09-07 19:35:01 by RouterOS 7.22.1
+# 2026-10-08 12:55:46 by RouterOS 7.22.1
 #
 /interface ethernet
 set [ find default-name=ether1 ] comment="OT Zone - Uplink to OT-RTR-CORE-01" disable-running-check=no
@@ -17,9 +17,9 @@ set max-neighbor-entries=6144 min-neighbor-entries=1536 soft-max-neighbor-entrie
 add address=10.250.1.2/30 interface=ether1 network=10.250.1.0
 add address=10.251.1.1/26 interface=ether2 network=10.251.1.0
 /ip firewall filter
-add action=accept chain=forward connection-state=established,related dst-address=10.251.1.11 protocol=tcp src-address=\
-    10.252.10.11
-add action=accept chain=forward dst-address=10.252.10.11 dst-port=1883 protocol=tcp src-address=10.251.1.11
+add action=accept chain=forward connection-state=established,related dst-address=10.252.10.11 protocol=tcp src-address=\
+    10.251.1.11
+add action=accept chain=forward dst-address=10.251.1.11 dst-port=502 protocol=tcp src-address=10.252.10.11
 add action=drop chain=forward
 /ip route
 add dst-address=10.250.0.0/24 gateway=10.250.1.1

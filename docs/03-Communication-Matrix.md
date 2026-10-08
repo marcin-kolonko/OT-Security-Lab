@@ -11,19 +11,19 @@
 
 | Source | Source Zone | Destination | Destination Zone | Protocol / Port | Direction | Purpose | Status |
 |---|---|---|---|---|---|---|---|
-| OT-CELL01-PLC-01 | OT-CELL01 | OT-SRV-MQTT-01 | OT-SRV | TCP / 1883 | → | Publish PLC telemetry and process data via MQTT | ALLOWED |
-| OT-CELL02-PLC-01 | OT-CELL02 | OT-SRV-MQTT-01 | OT-SRV | TCP / 1883 | → | Publish PLC telemetry and process data via MQTT | ALLOWED |
-| OT-CELL03-PLC-01 | OT-CELL03 | OT-SRV-MQTT-01 | OT-SRV | TCP / 1883 | → | Publish PLC telemetry and process data via MQTT | ALLOWED |
-| OT-SRV-MQTT-01 | OT-SRV | OT-CELL01-PLC-01 | OT-CELL01 | TCP / ephemeral | ← | Return traffic for established MQTT sessions | ALLOWED |
-| OT-SRV-MQTT-01 | OT-SRV | OT-CELL02-PLC-01 | OT-CELL02 | TCP / ephemeral | ← | Return traffic for established MQTT sessions | ALLOWED |
-| OT-SRV-MQTT-01 | OT-SRV | OT-CELL03-PLC-01 | OT-CELL03 | TCP / ephemeral | ← | Return traffic for established MQTT sessions | ALLOWED |
+| OT-SRV-EDGE-01 | OT-SRV | OT-CELL01-PLC-01 | OT-CELL01 | TCP / 502 | → | Read PLC telemetry and process data via Modbus TCP | ALLOWED
+| OT-CELL02-PLC-01 | OT-CELL02 | OT-SRV-EDGE-01 | OT-SRV | TCP / 1883 | → | Publish PLC telemetry and process data via MQTT | ALLOWED |
+| OT-CELL03-PLC-01 | OT-CELL03 | OT-SRV-EDGE-01 | OT-SRV | TCP / 1883 | → | Publish PLC telemetry and process data via MQTT | ALLOWED |
+| OT-CELL01-PLC-01 | OT-CELL01 | OT-SRV-EDGE-01 | OT-SRV | TCP / ephemeral | ← | Return traffic for established Modbus TCP sessions | ALLOWED |
+| OT-SRV-EDGE-01 | OT-SRV | OT-CELL02-PLC-01 | OT-CELL02 | TCP / ephemeral | ← | Return traffic for established MQTT sessions | ALLOWED |
+| OT-SRV-EDGE-01 | OT-SRV | OT-CELL03-PLC-01 | OT-CELL03 | TCP / ephemeral | ← | Return traffic for established MQTT sessions | ALLOWED |
 
 ## 2. OT Monitoring / Node-RED
 
 | Source | Source Zone | Destination | Destination Zone | Protocol / Port | Direction | Purpose | Status |
 |---|---|---|---|---|---|---|---|
-| DMZ-SRV-NodeRed-01 | DMZ | OT-SRV-MQTT-01 | OT-SRV | TCP / 1883 | → | Subscribe to and/or publish OT MQTT data | ALLOWED |
-| OT-SRV-MQTT-01 | OT-SRV | DMZ-SRV-NodeRed-01 | DMZ | TCP / ephemeral | ← | Return traffic for established MQTT sessions | ALLOWED |
+| DMZ-SRV-NodeRed-01 | DMZ | OT-SRV-EDGE-01 | OT-SRV | TCP / 1883 | → | Subscribe to and/or publish OT MQTT data | ALLOWED |
+| OT-SRV-EDGE-01 | OT-SRV | DMZ-SRV-NodeRed-01 | DMZ | TCP / ephemeral | ← | Return traffic for established MQTT sessions | ALLOWED |
 | OT-CELL01-PLC-01 | OT-CELL01 | DMZ-SRV-NodeRed-01 | DMZ | — | → | Direct PLC-to-Node-RED communication | NOT ALLOWED |
 | OT-CELL02-PLC-01 | OT-CELL02 | DMZ-SRV-NodeRed-01 | DMZ | — | → | Direct PLC-to-Node-RED communication | NOT ALLOWED |
 | OT-CELL03-PLC-01 | OT-CELL03 | DMZ-SRV-NodeRed-01 | DMZ | — | → | Direct PLC-to-Node-RED communication | NOT ALLOWED |
@@ -101,10 +101,10 @@
 
 | Flow ID | Source | Destination | Main Protocol | Security Purpose |
 |---|---|---|---|---|
-| COMM-01 | CELL01 PLC | OT MQTT | MQTT / TCP 1883 | Industrial telemetry |
-| COMM-02 | CELL02 PLC | OT MQTT | MQTT / TCP 1883 | Industrial telemetry |
-| COMM-03 | CELL03 PLC | OT MQTT | MQTT / TCP 1883 | Industrial telemetry |
-| COMM-04 | Node-RED | OT MQTT | MQTT / TCP 1883 | OT monitoring |
+| COMM-01 | CELL01 PLC | OT EDGE | Modbus TCP / TCP 502 | Industrial telemetry |
+| COMM-02 | CELL02 PLC | OT EDGE | MQTT / TCP 1883 | Industrial telemetry |
+| COMM-03 | CELL03 PLC | OT EDGE | MQTT / TCP 1883 | Industrial telemetry |
+| COMM-04 | Node-RED | OT EDGE | MQTT / TCP 1883 | OT monitoring |
 | COMM-05 | IT workstation | Node-RED | HTTP / TCP 1880 | Monitoring dashboard |
 | COMM-06 | IT workstation | Jump Server | SSH / TCP 22 | Secure administration |
 | COMM-07 | IT workstation | Jump Server | WireGuard / UDP 51820 | Secure remote access |
@@ -113,5 +113,6 @@
 | COMM-10 | NTP Server | IT workstation | NTP / UDP 123 | Time synchronization |
 | COMM-11 | NTP Server | Firewall | DNS / UDP 53 | External time resolution |
 | COMM-12 | IT workstation | DMZ Firewall | HTTPS / TCP 443 | Firewall administration |
+| COMM-13 | IT workstation | OT EDGE | HTTP / TCP 1880 | Node-RED Flow editor |
 
 > **Note:** Node-RED flows are used for visualization and monitoring. The Node-RED dashboard does not provide direct control of PLCs or industrial equipment.

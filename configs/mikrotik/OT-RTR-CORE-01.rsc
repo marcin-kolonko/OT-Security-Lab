@@ -1,4 +1,4 @@
-# 2026-09-07 19:28:14 by RouterOS 7.22.1
+# 2026-10-08 13:02:38 by RouterOS 7.22.1
 #
 /interface ethernet
 set [ find default-name=ether1 ] disable-running-check=no
@@ -14,6 +14,8 @@ add interface=ether7 name=VLAN102-CELL02 vlan-id=102
 add interface=ether7 name=VLAN103-CELL03 vlan-id=103
 add interface=ether7 name=VLAN200-OT-ENG vlan-id=200
 add interface=ether7 name=VLAN210-OT-MQTT vlan-id=210
+/ip firewall connection tracking
+set loose-tcp-tracking=no
 /ip settings
 set max-neighbor-entries=12288
 /ipv6 settings
@@ -26,9 +28,9 @@ add address=10.251.3.1/24 interface=VLAN103-CELL03 network=10.251.3.0
 add address=10.252.10.1/26 interface=VLAN210-OT-MQTT network=10.252.10.0
 add address=10.250.40.1/30 interface=ether2 network=10.250.40.0
 add address=10.252.0.1/26 interface=VLAN200-OT-ENG network=10.252.0.0
+/ip arp
+add address=10.250.0.1 interface=ether4 mac-address=00:15:5D:28:4C:00
 /ip firewall filter
-add action=accept chain=forward connection-state=established,related dst-address=10.251.1.11 protocol=tcp src-address=\
-    10.252.10.11
 add action=accept chain=forward connection-state=established,related dst-address=10.251.2.6 protocol=tcp src-address=\
     10.252.10.11
 add action=accept chain=forward connection-state=established,related dst-address=10.251.3.10 protocol=tcp src-address=\
@@ -37,15 +39,21 @@ add action=accept chain=forward connection-state=established,related dst-address
     10.252.10.11
 add action=accept chain=forward connection-state=established,related dst-address=10.250.50.20 protocol=tcp src-address=\
     10.252.0.10
-add action=accept chain=forward dst-address=10.252.10.11 dst-port=1883 protocol=tcp src-address=10.251.1.11
+add action=accept chain=forward connection-state=established,related dst-address=10.250.0.1 protocol=tcp src-address=\
+    10.252.10.11
+add action=accept chain=forward connection-state=established,related dst-address=10.252.10.11 protocol=tcp src-address=\
+    10.251.1.11
 add action=accept chain=forward dst-address=10.252.10.11 dst-port=1883 protocol=tcp src-address=10.251.2.6
 add action=accept chain=forward dst-address=10.252.10.11 dst-port=1883 protocol=tcp src-address=10.251.3.10
 add action=accept chain=forward dst-address=10.252.10.11 dst-port=1883 protocol=tcp src-address=10.250.50.10
 add action=accept chain=forward dst-address=10.252.0.10 dst-port=22 protocol=tcp src-address=10.250.50.20
 add action=accept chain=forward dst-address=10.252.0.10 dst-port=3389 protocol=tcp src-address=10.250.50.20
+add action=accept chain=forward dst-address=10.252.10.11 dst-port=1880 protocol=tcp src-address=10.250.0.1
+add action=accept chain=forward dst-address=10.251.1.11 dst-port=502 protocol=tcp src-address=10.252.10.11
 add action=drop chain=forward
 /ip route
 add dst-address=10.251.1.0/26 gateway=10.250.1.2
 add dst-address=10.250.50.0/24 gateway=10.250.40.2
+add dst-address=10.250.0.0/24 gateway=10.250.40.2
 /system identity
 set name=OT-RTR-CORE-01

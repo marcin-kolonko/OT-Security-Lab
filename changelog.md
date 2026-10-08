@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-10-09
+### Added.
+- Changed communication on OT-CELL01-PLC-01 from MQTT to Modbus TCP.
+- Updated corresponding firewall rules and routing between IT, DMZ and OT zones.
+- Updated communication flows in the Communication Matrix.
+- Updated the lab topology and project documentation.
+
 ## [0.1.2] - 2026-09-07
 ### Added.
 - Dedicated Jump Server in the DMZ.

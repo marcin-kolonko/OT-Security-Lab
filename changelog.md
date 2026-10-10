@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.4] - 2026-10-10
+### Added.
+- Changed communication on OT-CELL02-PLC-01 and OT-CELL03-PLC-01 from MQTT to OPC UA.
+- Updated corresponding firewall rules and routing on OT-RTR-CORE-01.
+- Updated communication flows in the Communication Matrix.
+- Updated the lab topology and project documentation.
+
 ## [0.1.3] - 2026-10-09
 ### Added.
 - Changed communication on OT-CELL01-PLC-01 from MQTT to Modbus TCP.

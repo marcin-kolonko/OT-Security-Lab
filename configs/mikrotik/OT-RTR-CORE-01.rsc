@@ -1,4 +1,4 @@
-# 2026-10-08 13:02:38 by RouterOS 7.22.1
+# 2026-10-10 18:58:45 by RouterOS 7.22.1
 #
 /interface ethernet
 set [ find default-name=ether1 ] disable-running-check=no
@@ -31,10 +31,6 @@ add address=10.252.0.1/26 interface=VLAN200-OT-ENG network=10.252.0.0
 /ip arp
 add address=10.250.0.1 interface=ether4 mac-address=00:15:5D:28:4C:00
 /ip firewall filter
-add action=accept chain=forward connection-state=established,related dst-address=10.251.2.6 protocol=tcp src-address=\
-    10.252.10.11
-add action=accept chain=forward connection-state=established,related dst-address=10.251.3.10 protocol=tcp src-address=\
-    10.252.10.11
 add action=accept chain=forward connection-state=established,related dst-address=10.250.50.10 protocol=tcp src-address=\
     10.252.10.11
 add action=accept chain=forward connection-state=established,related dst-address=10.250.50.20 protocol=tcp src-address=\
@@ -43,13 +39,17 @@ add action=accept chain=forward connection-state=established,related dst-address
     10.252.10.11
 add action=accept chain=forward connection-state=established,related dst-address=10.252.10.11 protocol=tcp src-address=\
     10.251.1.11
-add action=accept chain=forward dst-address=10.252.10.11 dst-port=1883 protocol=tcp src-address=10.251.2.6
-add action=accept chain=forward dst-address=10.252.10.11 dst-port=1883 protocol=tcp src-address=10.251.3.10
+add action=accept chain=forward connection-state=established,related dst-address=10.252.10.11 protocol=tcp src-address=\
+    10.251.2.6
+add action=accept chain=forward connection-state=established,related dst-address=10.252.10.11 protocol=tcp src-address=\
+    10.251.3.10
 add action=accept chain=forward dst-address=10.252.10.11 dst-port=1883 protocol=tcp src-address=10.250.50.10
 add action=accept chain=forward dst-address=10.252.0.10 dst-port=22 protocol=tcp src-address=10.250.50.20
 add action=accept chain=forward dst-address=10.252.0.10 dst-port=3389 protocol=tcp src-address=10.250.50.20
 add action=accept chain=forward dst-address=10.252.10.11 dst-port=1880 protocol=tcp src-address=10.250.0.1
 add action=accept chain=forward dst-address=10.251.1.11 dst-port=502 protocol=tcp src-address=10.252.10.11
+add action=accept chain=forward dst-address=10.251.2.6 dst-port=4840 protocol=tcp src-address=10.252.10.11
+add action=accept chain=forward dst-address=10.251.3.10 dst-port=4840 protocol=tcp src-address=10.252.10.11
 add action=drop chain=forward
 /ip route
 add dst-address=10.251.1.0/26 gateway=10.250.1.2

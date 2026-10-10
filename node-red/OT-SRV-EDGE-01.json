@@ -7,16 +7,6 @@
         "info": ""
     },
     {
-        "id": "3cc11d24.ff01a2",
-        "type": "comment",
-        "z": "f6f2187d.f17ca8",
-        "name": "WARNING: please check you have started this container with a volume that is mounted to /data\\n otherwise any flow changes are lost when you redeploy or upgrade the container\\n (e.g. upgrade to a more recent node-red docker image).\\n  If you are using named volumes you can ignore this warning.\\n Double click or see info side panel to learn how to start Node-RED in Docker to save your work",
-        "info": "\nTo start docker with a bind mount volume (-v option), for example:\n\n```\ndocker run -it -p 1880:1880 -v /home/user/node_red_data:/data --name mynodered nodered/node-red\n```\n\nwhere `/home/user/node_red_data` is a directory on your host machine where you want to store your flows.\n\nIf you do not do this then you can experiment and redploy flows, but if you restart or upgrade the container the flows will be disconnected and lost. \n\nThey will still exist in a hidden data volume, which can be recovered using standard docker techniques, but that is much more complex than just starting with a named volume as described above.",
-        "x": 350,
-        "y": 80,
-        "wires": []
-    },
-    {
         "id": "fa19f1fc54c1cf80",
         "type": "modbus-read",
         "z": "f6f2187d.f17ca8",
@@ -78,7 +68,7 @@
         "id": "93abf56f62f1c6d0",
         "type": "mqtt out",
         "z": "f6f2187d.f17ca8",
-        "name": "Speed",
+        "name": "MQTT Motor Speed",
         "topic": "cell01/plc01/motor/speed",
         "qos": "2",
         "retain": "false",
@@ -88,7 +78,7 @@
         "correl": "",
         "expiry": "",
         "broker": "9887d16e6be167b2",
-        "x": 610,
+        "x": 730,
         "y": 240,
         "wires": []
     },
@@ -136,7 +126,7 @@
         "id": "7416e1d532840b95",
         "type": "mqtt out",
         "z": "f6f2187d.f17ca8",
-        "name": "Current",
+        "name": "MQTT Current",
         "topic": "cell01/plc01/motor/current",
         "qos": "2",
         "retain": "false",
@@ -146,7 +136,7 @@
         "correl": "",
         "expiry": "",
         "broker": "9887d16e6be167b2",
-        "x": 620,
+        "x": 720,
         "y": 300,
         "wires": []
     },
@@ -174,7 +164,7 @@
         "id": "dfe6b23618fe4d7c",
         "type": "mqtt out",
         "z": "f6f2187d.f17ca8",
-        "name": "Temperature",
+        "name": "MQTT Temperature",
         "topic": "cell01/plc01/motor/temperature",
         "qos": "2",
         "retain": "false",
@@ -184,7 +174,7 @@
         "correl": "",
         "expiry": "",
         "broker": "9887d16e6be167b2",
-        "x": 690,
+        "x": 730,
         "y": 360,
         "wires": []
     },
@@ -192,7 +182,7 @@
         "id": "5d829d64c2d6fc83",
         "type": "mqtt out",
         "z": "f6f2187d.f17ca8",
-        "name": "Belt speed",
+        "name": "MQTT Belt speed",
         "topic": "cell01/plc01/belt/speed",
         "qos": "2",
         "retain": "false",
@@ -202,7 +192,7 @@
         "correl": "",
         "expiry": "",
         "broker": "9887d16e6be167b2",
-        "x": 630,
+        "x": 730,
         "y": 420,
         "wires": []
     },
@@ -230,7 +220,7 @@
         "id": "b4679451b63d21f7",
         "type": "mqtt out",
         "z": "f6f2187d.f17ca8",
-        "name": "Product",
+        "name": "MQTT Product",
         "topic": "cell01/plc01/sensor/product",
         "qos": "2",
         "retain": "false",
@@ -240,7 +230,7 @@
         "correl": "",
         "expiry": "",
         "broker": "9887d16e6be167b2",
-        "x": 620,
+        "x": 720,
         "y": 480,
         "wires": []
     },
@@ -268,7 +258,7 @@
         "id": "6335ed391785562e",
         "type": "mqtt out",
         "z": "f6f2187d.f17ca8",
-        "name": "Status",
+        "name": "MQTT Status",
         "topic": "cell01/plc01/state",
         "qos": "2",
         "retain": "false",
@@ -278,8 +268,1074 @@
         "correl": "",
         "expiry": "",
         "broker": "9887d16e6be167b2",
-        "x": 530,
+        "x": 710,
         "y": 540,
+        "wires": []
+    },
+    {
+        "id": "69c5633a34660999",
+        "type": "OpcUa-Client",
+        "z": "f6f2187d.f17ca8",
+        "endpoint": "ea0d9909f2f4364e",
+        "action": "subscribe",
+        "deadbandtype": "a",
+        "deadbandvalue": 1,
+        "time": "1",
+        "timeUnit": "s",
+        "certificate": "n",
+        "localfile": "",
+        "localkeyfile": "",
+        "securitymode": "None",
+        "securitypolicy": "None",
+        "useTransport": false,
+        "maxChunkCount": 1,
+        "maxMessageSize": 8192,
+        "receiveBufferSize": 8192,
+        "sendBufferSize": 8192,
+        "setstatusandtime": false,
+        "keepsessionalive": false,
+        "name": "OPC UA Client Motor Speed",
+        "applicationName": "",
+        "applicationUri": "http://example.org/opcua/plc",
+        "x": 640,
+        "y": 660,
+        "wires": [
+            [
+                "6a042cfdf27e6b25"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "fc8f4314a7bb2075",
+        "type": "OpcUa-Item",
+        "z": "f6f2187d.f17ca8",
+        "item": "ns=2;s=MotorSpeed",
+        "datatype": "Int32",
+        "value": "",
+        "name": "OPC UA Item Motor Speed",
+        "x": 360,
+        "y": 660,
+        "wires": [
+            [
+                "69c5633a34660999"
+            ]
+        ]
+    },
+    {
+        "id": "134171a369de5af3",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 110,
+        "y": 680,
+        "wires": [
+            [
+                "fc8f4314a7bb2075",
+                "8ab56616eb32cfe1",
+                "2666f9450b64f09b",
+                "0bab702431eb7c57",
+                "ed0e925efbfe484d",
+                "7f0ae93b3d6d0c9d"
+            ]
+        ]
+    },
+    {
+        "id": "8ab56616eb32cfe1",
+        "type": "OpcUa-Item",
+        "z": "f6f2187d.f17ca8",
+        "item": "ns=2;s=Current",
+        "datatype": "Float",
+        "value": "",
+        "name": "OPC UA Item Current",
+        "x": 340,
+        "y": 740,
+        "wires": [
+            [
+                "7cbe99e8b0ba6325"
+            ]
+        ]
+    },
+    {
+        "id": "2666f9450b64f09b",
+        "type": "OpcUa-Item",
+        "z": "f6f2187d.f17ca8",
+        "item": "ns=2;s=Temperature",
+        "datatype": "Float",
+        "value": "",
+        "name": "OPC UA Item Temperature",
+        "x": 360,
+        "y": 820,
+        "wires": [
+            [
+                "f8bee8a6d2f3efb1"
+            ]
+        ]
+    },
+    {
+        "id": "0bab702431eb7c57",
+        "type": "OpcUa-Item",
+        "z": "f6f2187d.f17ca8",
+        "item": "ns=2;s=BeltSpeed",
+        "datatype": "Float",
+        "value": "",
+        "name": "OPC UA Item Belt Speed",
+        "x": 350,
+        "y": 900,
+        "wires": [
+            [
+                "a7e9eef1964aaf04"
+            ]
+        ]
+    },
+    {
+        "id": "ed0e925efbfe484d",
+        "type": "OpcUa-Item",
+        "z": "f6f2187d.f17ca8",
+        "item": "ns=2;s=ProductDetected",
+        "datatype": "Int32",
+        "value": "",
+        "name": "OPC UA Item Product Detected",
+        "x": 370,
+        "y": 980,
+        "wires": [
+            [
+                "58def3e58ae9ed9a"
+            ]
+        ]
+    },
+    {
+        "id": "7cbe99e8b0ba6325",
+        "type": "OpcUa-Client",
+        "z": "f6f2187d.f17ca8",
+        "endpoint": "ea0d9909f2f4364e",
+        "action": "subscribe",
+        "deadbandtype": "a",
+        "deadbandvalue": 1,
+        "time": "1",
+        "timeUnit": "s",
+        "certificate": "n",
+        "localfile": "",
+        "localkeyfile": "",
+        "securitymode": "None",
+        "securitypolicy": "None",
+        "useTransport": false,
+        "maxChunkCount": 1,
+        "maxMessageSize": 8192,
+        "receiveBufferSize": 8192,
+        "sendBufferSize": 8192,
+        "setstatusandtime": false,
+        "keepsessionalive": false,
+        "name": "OPC UA Client Current",
+        "applicationName": "",
+        "applicationUri": "http://example.org/opcua/plc",
+        "x": 620,
+        "y": 740,
+        "wires": [
+            [
+                "a5c30d27d68475b8"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "7f0ae93b3d6d0c9d",
+        "type": "OpcUa-Item",
+        "z": "f6f2187d.f17ca8",
+        "item": "ns=2;s=State",
+        "datatype": "String",
+        "value": "",
+        "name": "OPC UA Item State",
+        "x": 330,
+        "y": 1060,
+        "wires": [
+            [
+                "b1fb59a02097d26b"
+            ]
+        ]
+    },
+    {
+        "id": "f8bee8a6d2f3efb1",
+        "type": "OpcUa-Client",
+        "z": "f6f2187d.f17ca8",
+        "endpoint": "ea0d9909f2f4364e",
+        "action": "subscribe",
+        "deadbandtype": "a",
+        "deadbandvalue": 1,
+        "time": "1",
+        "timeUnit": "s",
+        "certificate": "n",
+        "localfile": "",
+        "localkeyfile": "",
+        "securitymode": "None",
+        "securitypolicy": "None",
+        "useTransport": false,
+        "maxChunkCount": 1,
+        "maxMessageSize": 8192,
+        "receiveBufferSize": 8192,
+        "sendBufferSize": 8192,
+        "setstatusandtime": false,
+        "keepsessionalive": false,
+        "name": "OPC UA Client Temperature",
+        "applicationName": "",
+        "applicationUri": "http://example.org/opcua/plc",
+        "x": 640,
+        "y": 820,
+        "wires": [
+            [
+                "002c9e17a3820878"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "a7e9eef1964aaf04",
+        "type": "OpcUa-Client",
+        "z": "f6f2187d.f17ca8",
+        "endpoint": "ea0d9909f2f4364e",
+        "action": "subscribe",
+        "deadbandtype": "a",
+        "deadbandvalue": 1,
+        "time": "1",
+        "timeUnit": "s",
+        "certificate": "n",
+        "localfile": "",
+        "localkeyfile": "",
+        "securitymode": "None",
+        "securitypolicy": "None",
+        "useTransport": false,
+        "maxChunkCount": 1,
+        "maxMessageSize": 8192,
+        "receiveBufferSize": 8192,
+        "sendBufferSize": 8192,
+        "setstatusandtime": false,
+        "keepsessionalive": false,
+        "name": "OPC UA Client Belt Speed",
+        "applicationName": "",
+        "applicationUri": "http://example.org/opcua/plc",
+        "x": 640,
+        "y": 900,
+        "wires": [
+            [
+                "aa6a4e3d45771384"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "58def3e58ae9ed9a",
+        "type": "OpcUa-Client",
+        "z": "f6f2187d.f17ca8",
+        "endpoint": "ea0d9909f2f4364e",
+        "action": "subscribe",
+        "deadbandtype": "a",
+        "deadbandvalue": 1,
+        "time": "1",
+        "timeUnit": "s",
+        "certificate": "n",
+        "localfile": "",
+        "localkeyfile": "",
+        "securitymode": "None",
+        "securitypolicy": "None",
+        "useTransport": false,
+        "maxChunkCount": 1,
+        "maxMessageSize": 8192,
+        "receiveBufferSize": 8192,
+        "sendBufferSize": 8192,
+        "setstatusandtime": false,
+        "keepsessionalive": false,
+        "name": "OPC UA Client Product Detected",
+        "applicationName": "",
+        "applicationUri": "http://example.org/opcua/plc",
+        "x": 660,
+        "y": 980,
+        "wires": [
+            [
+                "cd61ef7172e82e99"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "b1fb59a02097d26b",
+        "type": "OpcUa-Client",
+        "z": "f6f2187d.f17ca8",
+        "endpoint": "ea0d9909f2f4364e",
+        "action": "subscribe",
+        "deadbandtype": "a",
+        "deadbandvalue": 1,
+        "time": "1",
+        "timeUnit": "s",
+        "certificate": "n",
+        "localfile": "",
+        "localkeyfile": "",
+        "securitymode": "None",
+        "securitypolicy": "None",
+        "useTransport": false,
+        "maxChunkCount": 1,
+        "maxMessageSize": 8192,
+        "receiveBufferSize": 8192,
+        "sendBufferSize": 8192,
+        "setstatusandtime": false,
+        "keepsessionalive": false,
+        "name": "OPC UA Client State",
+        "applicationName": "",
+        "applicationUri": "http://example.org/opcua/plc",
+        "x": 620,
+        "y": 1060,
+        "wires": [
+            [
+                "b40446b9a8a260d7"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "dfa441926e34d9c8",
+        "type": "mqtt out",
+        "z": "f6f2187d.f17ca8",
+        "name": "MQTT Motor Speed",
+        "topic": "cell02/plc01/motor/speed",
+        "qos": "2",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9887d16e6be167b2",
+        "x": 1190,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "d2bec83f8eab0f0d",
+        "type": "mqtt out",
+        "z": "f6f2187d.f17ca8",
+        "name": "MQTT Current",
+        "topic": "cell02/plc01/motor/current",
+        "qos": "2",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9887d16e6be167b2",
+        "x": 1180,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "a5c30d27d68475b8",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Current Conversion",
+        "func": "let val = parseFloat(msg.payload);\n\nmsg.payload = parseFloat(val.toFixed(2));\nmsg.payload = msg.payload + \" A\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 930,
+        "y": 740,
+        "wires": [
+            [
+                "d2bec83f8eab0f0d"
+            ]
+        ]
+    },
+    {
+        "id": "6a042cfdf27e6b25",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Speed Conversion",
+        "func": "msg.payload = msg.payload + \" rpm\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 930,
+        "y": 660,
+        "wires": [
+            [
+                "dfa441926e34d9c8"
+            ]
+        ]
+    },
+    {
+        "id": "ae6cbe74b6b21097",
+        "type": "comment",
+        "z": "f6f2187d.f17ca8",
+        "name": "OT-CELL01-PLC-01. Modbus TCP to MQTT Conversion",
+        "info": "",
+        "x": 300,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "98d0a0dd17a85c91",
+        "type": "comment",
+        "z": "f6f2187d.f17ca8",
+        "name": "OT-CELL02-PLC-01. OPC UA to MQTT Conversion",
+        "info": "",
+        "x": 270,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "002c9e17a3820878",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Temperature Conversion",
+        "func": "let val = parseFloat(msg.payload);\n\nmsg.payload = parseFloat(val.toFixed(2));\nmsg.payload = msg.payload + \" °C\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 820,
+        "wires": [
+            [
+                "8c392edccb4f6913"
+            ]
+        ]
+    },
+    {
+        "id": "aa6a4e3d45771384",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Belt speed Conversion",
+        "func": "let val = parseFloat(msg.payload);\n\nmsg.payload = parseFloat(val.toFixed(2));\nmsg.payload = msg.payload + \" m/s\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 940,
+        "y": 900,
+        "wires": [
+            [
+                "01ea106a97d5821b"
+            ]
+        ]
+    },
+    {
+        "id": "8c392edccb4f6913",
+        "type": "mqtt out",
+        "z": "f6f2187d.f17ca8",
+        "name": "MQTT Temperature",
+        "topic": "cell02/plc01/motor/temperature",
+        "qos": "2",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9887d16e6be167b2",
+        "x": 1190,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "01ea106a97d5821b",
+        "type": "mqtt out",
+        "z": "f6f2187d.f17ca8",
+        "name": "MQTT Belt speed",
+        "topic": "cell02/plc01/belt/speed",
+        "qos": "2",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9887d16e6be167b2",
+        "x": 1190,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "cd61ef7172e82e99",
+        "type": "mqtt out",
+        "z": "f6f2187d.f17ca8",
+        "name": "MQTT Product",
+        "topic": "cell02/plc01/sensor/product",
+        "qos": "2",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9887d16e6be167b2",
+        "x": 1180,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "b40446b9a8a260d7",
+        "type": "mqtt out",
+        "z": "f6f2187d.f17ca8",
+        "name": "MQTT Status",
+        "topic": "cell02/plc01/state",
+        "qos": "2",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9887d16e6be167b2",
+        "x": 1170,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "52176d168c4c951f",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 130,
+        "y": 1180,
+        "wires": [
+            [
+                "7f0f6f6ee4c2ac33",
+                "8f0eb0396efa16bf",
+                "98320148003fee55",
+                "0cfd390c14826935",
+                "1b44188a29da2fa1",
+                "85bb46af259dcc76"
+            ]
+        ]
+    },
+    {
+        "id": "7f0f6f6ee4c2ac33",
+        "type": "OpcUa-Item",
+        "z": "f6f2187d.f17ca8",
+        "item": "ns=2;s=MotorSpeed",
+        "datatype": "Int32",
+        "value": "",
+        "name": "OPC UA Item Motor Speed",
+        "x": 340,
+        "y": 1180,
+        "wires": [
+            [
+                "cbfb6cb766f0ec03"
+            ]
+        ]
+    },
+    {
+        "id": "cbfb6cb766f0ec03",
+        "type": "OpcUa-Client",
+        "z": "f6f2187d.f17ca8",
+        "endpoint": "51f6b02bc4856df8",
+        "action": "subscribe",
+        "deadbandtype": "a",
+        "deadbandvalue": 1,
+        "time": "1",
+        "timeUnit": "s",
+        "certificate": "n",
+        "localfile": "",
+        "localkeyfile": "",
+        "securitymode": "None",
+        "securitypolicy": "None",
+        "useTransport": false,
+        "maxChunkCount": 1,
+        "maxMessageSize": 8192,
+        "receiveBufferSize": 8192,
+        "sendBufferSize": 8192,
+        "setstatusandtime": false,
+        "keepsessionalive": false,
+        "name": "OPC UA Client Motor Speed",
+        "applicationName": "",
+        "applicationUri": "http://example.org/opcua/plc",
+        "x": 640,
+        "y": 1180,
+        "wires": [
+            [
+                "d8796b5a547c38b3"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "04fb08f7c1823a9c",
+        "type": "comment",
+        "z": "f6f2187d.f17ca8",
+        "name": "OT-CELL03-PLC-01. OPC UA to MQTT Conversion",
+        "info": "",
+        "x": 290,
+        "y": 1120,
+        "wires": []
+    },
+    {
+        "id": "d8796b5a547c38b3",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Speed Conversion",
+        "func": "msg.payload = msg.payload + \" rpm\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 930,
+        "y": 1180,
+        "wires": [
+            [
+                "648b94bdb804d907"
+            ]
+        ]
+    },
+    {
+        "id": "648b94bdb804d907",
+        "type": "mqtt out",
+        "z": "f6f2187d.f17ca8",
+        "name": "MQTT Motor Speed",
+        "topic": "cell03/plc01/motor/speed",
+        "qos": "2",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9887d16e6be167b2",
+        "x": 1190,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "8f0eb0396efa16bf",
+        "type": "OpcUa-Item",
+        "z": "f6f2187d.f17ca8",
+        "item": "ns=2;s=Current",
+        "datatype": "Float",
+        "value": "",
+        "name": "OPC UA Item Current",
+        "x": 320,
+        "y": 1260,
+        "wires": [
+            [
+                "eb96b187401182c3"
+            ]
+        ]
+    },
+    {
+        "id": "98320148003fee55",
+        "type": "OpcUa-Item",
+        "z": "f6f2187d.f17ca8",
+        "item": "ns=2;s=Temperature",
+        "datatype": "Float",
+        "value": "",
+        "name": "OPC UA Item Temperature",
+        "x": 340,
+        "y": 1340,
+        "wires": [
+            [
+                "0ed79141e5a5de32"
+            ]
+        ]
+    },
+    {
+        "id": "0cfd390c14826935",
+        "type": "OpcUa-Item",
+        "z": "f6f2187d.f17ca8",
+        "item": "ns=2;s=BeltSpeed",
+        "datatype": "Float",
+        "value": "",
+        "name": "OPC UA Item Belt Speed",
+        "x": 330,
+        "y": 1420,
+        "wires": [
+            [
+                "8db06d5df07204d1"
+            ]
+        ]
+    },
+    {
+        "id": "1b44188a29da2fa1",
+        "type": "OpcUa-Item",
+        "z": "f6f2187d.f17ca8",
+        "item": "ns=2;s=ProductDetected",
+        "datatype": "Int32",
+        "value": "",
+        "name": "OPC UA Item Product Detected",
+        "x": 350,
+        "y": 1500,
+        "wires": [
+            [
+                "53e5a0c6381a0391"
+            ]
+        ]
+    },
+    {
+        "id": "85bb46af259dcc76",
+        "type": "OpcUa-Item",
+        "z": "f6f2187d.f17ca8",
+        "item": "ns=2;s=State",
+        "datatype": "String",
+        "value": "",
+        "name": "OPC UA Item State",
+        "x": 310,
+        "y": 1580,
+        "wires": [
+            [
+                "993ad4fee7fd4778"
+            ]
+        ]
+    },
+    {
+        "id": "eb96b187401182c3",
+        "type": "OpcUa-Client",
+        "z": "f6f2187d.f17ca8",
+        "endpoint": "51f6b02bc4856df8",
+        "action": "subscribe",
+        "deadbandtype": "a",
+        "deadbandvalue": 1,
+        "time": "1",
+        "timeUnit": "s",
+        "certificate": "n",
+        "localfile": "",
+        "localkeyfile": "",
+        "securitymode": "None",
+        "securitypolicy": "None",
+        "useTransport": false,
+        "maxChunkCount": 1,
+        "maxMessageSize": 8192,
+        "receiveBufferSize": 8192,
+        "sendBufferSize": 8192,
+        "setstatusandtime": false,
+        "keepsessionalive": false,
+        "name": "OPC UA Client Motor Speed",
+        "applicationName": "",
+        "applicationUri": "http://example.org/opcua/plc",
+        "x": 640,
+        "y": 1260,
+        "wires": [
+            [
+                "54cee72ec008ce42"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "0ed79141e5a5de32",
+        "type": "OpcUa-Client",
+        "z": "f6f2187d.f17ca8",
+        "endpoint": "51f6b02bc4856df8",
+        "action": "subscribe",
+        "deadbandtype": "a",
+        "deadbandvalue": 1,
+        "time": "1",
+        "timeUnit": "s",
+        "certificate": "n",
+        "localfile": "",
+        "localkeyfile": "",
+        "securitymode": "None",
+        "securitypolicy": "None",
+        "useTransport": false,
+        "maxChunkCount": 1,
+        "maxMessageSize": 8192,
+        "receiveBufferSize": 8192,
+        "sendBufferSize": 8192,
+        "setstatusandtime": false,
+        "keepsessionalive": false,
+        "name": "OPC UA Client Motor Speed",
+        "applicationName": "",
+        "applicationUri": "http://example.org/opcua/plc",
+        "x": 640,
+        "y": 1340,
+        "wires": [
+            [
+                "0721a73116f16376"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "8db06d5df07204d1",
+        "type": "OpcUa-Client",
+        "z": "f6f2187d.f17ca8",
+        "endpoint": "51f6b02bc4856df8",
+        "action": "subscribe",
+        "deadbandtype": "a",
+        "deadbandvalue": 1,
+        "time": "1",
+        "timeUnit": "s",
+        "certificate": "n",
+        "localfile": "",
+        "localkeyfile": "",
+        "securitymode": "None",
+        "securitypolicy": "None",
+        "useTransport": false,
+        "maxChunkCount": 1,
+        "maxMessageSize": 8192,
+        "receiveBufferSize": 8192,
+        "sendBufferSize": 8192,
+        "setstatusandtime": false,
+        "keepsessionalive": false,
+        "name": "OPC UA Client Motor Speed",
+        "applicationName": "",
+        "applicationUri": "http://example.org/opcua/plc",
+        "x": 640,
+        "y": 1420,
+        "wires": [
+            [
+                "0b04f4c209b9a9b7"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "53e5a0c6381a0391",
+        "type": "OpcUa-Client",
+        "z": "f6f2187d.f17ca8",
+        "endpoint": "51f6b02bc4856df8",
+        "action": "subscribe",
+        "deadbandtype": "a",
+        "deadbandvalue": 1,
+        "time": "1",
+        "timeUnit": "s",
+        "certificate": "n",
+        "localfile": "",
+        "localkeyfile": "",
+        "securitymode": "None",
+        "securitypolicy": "None",
+        "useTransport": false,
+        "maxChunkCount": 1,
+        "maxMessageSize": 8192,
+        "receiveBufferSize": 8192,
+        "sendBufferSize": 8192,
+        "setstatusandtime": false,
+        "keepsessionalive": false,
+        "name": "OPC UA Client Motor Speed",
+        "applicationName": "",
+        "applicationUri": "http://example.org/opcua/plc",
+        "x": 640,
+        "y": 1500,
+        "wires": [
+            [
+                "e59569524ab1a84c"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "993ad4fee7fd4778",
+        "type": "OpcUa-Client",
+        "z": "f6f2187d.f17ca8",
+        "endpoint": "51f6b02bc4856df8",
+        "action": "subscribe",
+        "deadbandtype": "a",
+        "deadbandvalue": 1,
+        "time": "1",
+        "timeUnit": "s",
+        "certificate": "n",
+        "localfile": "",
+        "localkeyfile": "",
+        "securitymode": "None",
+        "securitypolicy": "None",
+        "useTransport": false,
+        "maxChunkCount": 1,
+        "maxMessageSize": 8192,
+        "receiveBufferSize": 8192,
+        "sendBufferSize": 8192,
+        "setstatusandtime": false,
+        "keepsessionalive": false,
+        "name": "OPC UA Client Motor Speed",
+        "applicationName": "",
+        "applicationUri": "http://example.org/opcua/plc",
+        "x": 640,
+        "y": 1580,
+        "wires": [
+            [
+                "517f092ca0570310"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "9db2d4a60fa4b1aa",
+        "type": "mqtt out",
+        "z": "f6f2187d.f17ca8",
+        "name": "MQTT Current",
+        "topic": "cell03/plc01/motor/current",
+        "qos": "2",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9887d16e6be167b2",
+        "x": 1180,
+        "y": 1260,
+        "wires": []
+    },
+    {
+        "id": "54cee72ec008ce42",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Current Conversion",
+        "func": "let val = parseFloat(msg.payload);\n\nmsg.payload = parseFloat(val.toFixed(2));\nmsg.payload = msg.payload + \" A\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 930,
+        "y": 1260,
+        "wires": [
+            [
+                "9db2d4a60fa4b1aa"
+            ]
+        ]
+    },
+    {
+        "id": "0721a73116f16376",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Temperature Conversion",
+        "func": "let val = parseFloat(msg.payload);\n\nmsg.payload = parseFloat(val.toFixed(2));\nmsg.payload = msg.payload + \" °C\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 1340,
+        "wires": [
+            [
+                "acf23528a451f465"
+            ]
+        ]
+    },
+    {
+        "id": "0b04f4c209b9a9b7",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Belt speed Conversion",
+        "func": "let val = parseFloat(msg.payload);\n\nmsg.payload = parseFloat(val.toFixed(2));\nmsg.payload = msg.payload + \" m/s\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 940,
+        "y": 1420,
+        "wires": [
+            [
+                "777fe40f18eae88f"
+            ]
+        ]
+    },
+    {
+        "id": "acf23528a451f465",
+        "type": "mqtt out",
+        "z": "f6f2187d.f17ca8",
+        "name": "MQTT Temperature",
+        "topic": "cell03/plc01/motor/temperature",
+        "qos": "2",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9887d16e6be167b2",
+        "x": 1190,
+        "y": 1340,
+        "wires": []
+    },
+    {
+        "id": "777fe40f18eae88f",
+        "type": "mqtt out",
+        "z": "f6f2187d.f17ca8",
+        "name": "MQTT Belt speed",
+        "topic": "cell03/plc01/belt/speed",
+        "qos": "2",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9887d16e6be167b2",
+        "x": 1190,
+        "y": 1420,
+        "wires": []
+    },
+    {
+        "id": "e59569524ab1a84c",
+        "type": "mqtt out",
+        "z": "f6f2187d.f17ca8",
+        "name": "MQTT Product",
+        "topic": "cell03/plc01/sensor/product",
+        "qos": "2",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9887d16e6be167b2",
+        "x": 1180,
+        "y": 1500,
+        "wires": []
+    },
+    {
+        "id": "517f092ca0570310",
+        "type": "mqtt out",
+        "z": "f6f2187d.f17ca8",
+        "name": "MQTT Status",
+        "topic": "cell03/plc01/state",
+        "qos": "2",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9887d16e6be167b2",
+        "x": 1170,
+        "y": 1580,
         "wires": []
     },
     {
@@ -344,11 +1400,38 @@
         "sessionExpiry": ""
     },
     {
-        "id": "0e550ea9c1eae161",
+        "id": "ea0d9909f2f4364e",
+        "type": "OpcUa-Endpoint",
+        "name": "OT-CELL02-PLC-01",
+        "endpoint": "opc.tcp://10.251.2.6:4840/freeopcua/server/",
+        "secpol": "None",
+        "secmode": "None",
+        "none": true,
+        "login": false,
+        "usercert": false,
+        "usercertificate": "",
+        "userprivatekey": ""
+    },
+    {
+        "id": "51f6b02bc4856df8",
+        "type": "OpcUa-Endpoint",
+        "name": "OT-CELL03-PLC-01",
+        "endpoint": "opc.tcp://10.251.3.10:4840/freeopcua/server/",
+        "secpol": "None",
+        "secmode": "None",
+        "none": true,
+        "login": false,
+        "usercert": false,
+        "usercertificate": "",
+        "userprivatekey": ""
+    },
+    {
+        "id": "674012f6e0a6d4b5",
         "type": "global-config",
         "env": [],
         "modules": {
-            "node-red-contrib-modbus": "5.60.2"
+            "node-red-contrib-modbus": "5.60.2",
+            "node-red-contrib-opcua": "0.2.355"
         }
     }
 ]

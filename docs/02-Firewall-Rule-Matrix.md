@@ -15,7 +15,7 @@
 | WAN (IT) | IT-PC-Host-01  | DMZ-SRV-NTP | TCP / 22 (SSH) | ALLOW | Access to NTP server | [x] |
 | WAN (IT) | IT-PC-Host-01  | DMZ-SRV-JUMP | UDP / 51820 | ALLOW | Allowing VPN Tunneling access from a Windows 11 Pro to Jump server | [x] |
 | WAN (IT) | IT-PC-Host-01  | DMZ-FW-EDGE-01 | TCP / 443 | ALLOW | Access to Firewall GUI | [x] |
-| WAN (IT) | IT-PC-Host-01  | DMZ-SRV-EDGE-01 | TCP / 1880 | ALLOW | Access to Node-RED | [x] |
+| WAN (IT) | IT-PC-Host-01  | DMZ-SRV-EDGE-01 | TCP / 1880 | ALLOW | Access to Node-RED GUI | [x] |
 | *WAN (IT) | Any  | Any | All        | BLOCK | *Default deny — all traffic not explicitly permitted above  | [x] |
 | OPT1 (DMZ) | DMZ-SRV-JUMP | OT-ENG-01 | TCP / 22 (SSH) | ALLOW | SSH administrative access from DMZ-SRV-JUMP to OT-ENG-01 | [x] |
 | OPT1 (DMZ) | DMZ-SRV-JUMP | OT-ENG-01 | TCP / 3389 (RDP) | ALLOW | RDP administrative access from DMZ-SRV-JUMP to OT-ENG-01 | [x] |
@@ -29,17 +29,19 @@
 ## 2. MikroTik CHR / Router Core OT-RTR-CORE-01
 | Source (VLAN)      | Destination (VLAN)     | Protocol / Port | Action | Description | Implemented |
 |--------------------|----------------|-----------------|-------|------| :--- |
-| OT-CELL02-PLC-01 (102) | OT-SRV-EDGE-01 (210)  | TCP / 1883 (MQTT) | ALLOW | Communication from PLC in CELL02 to MQTT broker | [x] |
-| OT-CELL03-PLC-01 (103) | OT-SRV-EDGE-01 (210) | TCP / 1883 (MQTT) | ALLOW | Communication from PLC in CELL03 to MQTT broker | [x] |
 | DMZ-SRV-JUMP  | OT-ENG-01 (200) | TCP / 22 (SSH) | ALLOW |Secure administrative access to OT-ENG-01 from Jump Server or VPN tunneling | [x] |
 | DMZ-SRV-JUMP  | OT-ENG-01 (200) | TCP / 3389 (RDP) | ALLOW |Secure administrative access through RDP to OT-ENG-01 from Jump Server or VPN tunneling | [x] |
 | DMZ-SRV-NodeRed-01  | OT-SRV-EDGE-01 | TCP / 1883 (MQTT) | ALLOW | Connection from Node-RED to MQTT broker in the OT network | [x] |
-| OT-SRV-EDGE-01 (210) | OT-CELL01-PLC-01 | TCP / 502 (Modbus TCP) | ALLOW | Communication from PLC in CELL01 to MQTT broker | [x] |
-| OT-SRV-EDGE-01 (210) | OT-CELL02-PLC-01 (102) | TCP / Any | ALLOW | Established/related return traffic for MQTT sessions initiated by OT-CELL01-PLC-02  | [x] |
-| OT-SRV-EDGE-01 (210) | OT-CELL03-PLC-01 (103) | TCP / Any | ALLOW | Established/related return traffic for MQTT sessions initiated by OT-CELL01-PLC-03  | [x] |
+| IT-PC-Host-01 | DMZ-SRV-EDGE-01 | TCP / 1880 | ALLOW | Access to Node-RED GUI | [x] |
+| OT-SRV-EDGE-01 (210) | OT-CELL01-PLC-01 | TCP / 502 (Modbus TCP) | ALLOW | Communication from PLC in CELL01 to Node-RED EDGE | [x] |
+| OT-SRV-EDGE-01 (210) | OT-CELL02-PLC-01 (102) | TCP / 4840 (OPC UA) | ALLOW | Communication from PLC in CELL02 to Node-RED EDGE | [x] |
+| OT-SRV-EDGE-01 (210) | OT-CELL03-PLC-01 (103) | TCP / 4840 (OPC UA) | ALLOW | Communication from PLC in CELL03 to Node-RED EDGE | [x] |
 | OT-SRV-EDGE-01 (210) | DMZ-SRV-NodeRed-01 | TCP / Any | ALLOW | Established/related return traffic for MQTT sessions initiated by Node-RED  | [x] |
 | OT-ENG-01 (200) | DMZ-SRV-JUMP | TCP | ALLOW | Established/related return traffic for SSH sessions initiated by Jump server  | [x] |
+| DMZ-SRV-EDGE-01 | IT-PC-Host-01 | TCP / Any | ALLOW | Established/related return traffic for Node-RED GUI sessions initiated by IT-PC-Host-01 | [x] |
 | OT-CELL01-PLC-01  | OT-SRV-EDGE-01 (210)  | TCP / Any | ALLOW | Established/related return traffic for Modbus TCP sessions initiated by OT-SRV-EDGE-01  | [x] |
+| OT-CELL02-PLC-01 (102) | OT-SRV-EDGE-01 (210)  | TCP / Any | ALLOW | Established/related return traffic for OPC UA sessions initiated by OT-SRV-EDGE-01  | [x] |
+| OT-CELL03-PLC-01 (103) | OT-SRV-EDGE-01 (210)  | TCP / Any | ALLOW | Established/related return traffic for OPC UA sessions initiated by OT-SRV-EDGE-01  | [x] |
 | Any  | Any | All | BLOCK | Default deny — all traffic not explicitly permitted above  | [x] |
 
 

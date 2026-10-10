@@ -19,14 +19,14 @@
 ## OT Zone (ICS)
 | Hostname | IP Address | Mask / CIDR |  Gateway | Description / Function |
 | :--- | :--- | :--- | :--- | :--- |
-| `OT-SRV-EDGE-01` | `10.252.10.11` | `/26` | `10.252.10.1` | MQTT Broker and Node-RED (Ubuntu Linux) |
+| `OT-SRV-EDGE-01` | `10.252.10.11` | `/26` | `10.252.10.1` | MQTT Broker and Node-RED (Ubuntu Linux) Conversion OPC UA and Modbus TCP to MQTT |
 | `OT-ENG-01` | `10.252.0.10` | `/26` | `10.252.0.1` | Simulation of Engineering station (Lubuntu 24.10) |
 | `OT-CELL01-PLC-01` | `10.251.1.11` | `/26` | `10.251.1.1` | PLC production nest 01 Modbus TCP |
 | `OT-CELL01-HMI-01` | `10.251.1.12` | `/26` | `10.251.1.1` | HMI production nest 01 |
 | `OT-CELL01-IR-01` | `10.251.1.13` | `/26` | `10.251.1.1` | Industrial Robot production nest 01 |
-| `OT-CELL02-PLC-01` | `10.251.2.6` | `/24` | `10.251.2.1` | PLC production nest 02 MQTT |
+| `OT-CELL02-PLC-01` | `10.251.2.6` | `/24` | `10.251.2.1` | PLC production nest 02 OPC UA |
 | `OT-CELL02-HMI-01` | `10.251.2.10` | `/24` | `10.251.2.1` | HMI production nest 02 |
-| `OT-CELL03-PLC-01` | `10.251.3.10` | `/24` | `10.251.3.1` | PLC production nest 03 MQTT |
+| `OT-CELL03-PLC-01` | `10.251.3.10` | `/24` | `10.251.3.1` | PLC production nest 03 OPC UA |
 | `OT-CELL03-HMI-01` | `10.251.3.20` | `/24` | `10.251.3.1` | HMI production nest 03 |
 
 ---

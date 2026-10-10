@@ -11,12 +11,12 @@
 
 | Source | Source Zone | Destination | Destination Zone | Protocol / Port | Direction | Purpose | Status |
 |---|---|---|---|---|---|---|---|
-| OT-SRV-EDGE-01 | OT-SRV | OT-CELL01-PLC-01 | OT-CELL01 | TCP / 502 | → | Read PLC telemetry and process data via Modbus TCP | ALLOWED
-| OT-CELL02-PLC-01 | OT-CELL02 | OT-SRV-EDGE-01 | OT-SRV | TCP / 1883 | → | Publish PLC telemetry and process data via MQTT | ALLOWED |
-| OT-CELL03-PLC-01 | OT-CELL03 | OT-SRV-EDGE-01 | OT-SRV | TCP / 1883 | → | Publish PLC telemetry and process data via MQTT | ALLOWED |
+| OT-SRV-EDGE-01 | OT-SRV | OT-CELL01-PLC-01 | OT-CELL01 | TCP / 502 | → | Read PLC telemetry and process data via Modbus TCP | ALLOWED |
+| OT-SRV-EDGE-01 | OT-SRV | OT-CELL02-PLC-01 | OT-CELL02 | TCP / 4840 | → | Read PLC telemetry and process data via OPC UA | ALLOWED |
+| OT-SRV-EDGE-01 | OT-SRV | OT-CELL03-PLC-01 | OT-CELL03 | TCP / 4840 | → | Read PLC telemetry and process data via OPC UA | ALLOWED |
 | OT-CELL01-PLC-01 | OT-CELL01 | OT-SRV-EDGE-01 | OT-SRV | TCP / ephemeral | ← | Return traffic for established Modbus TCP sessions | ALLOWED |
-| OT-SRV-EDGE-01 | OT-SRV | OT-CELL02-PLC-01 | OT-CELL02 | TCP / ephemeral | ← | Return traffic for established MQTT sessions | ALLOWED |
-| OT-SRV-EDGE-01 | OT-SRV | OT-CELL03-PLC-01 | OT-CELL03 | TCP / ephemeral | ← | Return traffic for established MQTT sessions | ALLOWED |
+| OT-CELL02-PLC-01 | OT-CELL02 | OT-SRV-EDGE-01 | OT-SRV | TCP / ephemeral | ← | Return traffic for established OPC UA sessions | ALLOWED |
+| OT-CELL03-PLC-01 | OT-CELL03 | OT-SRV-EDGE-01 | OT-SRV | TCP / ephemeral | ← | Return traffic for established OPC UA sessions | ALLOWED |
 
 ## 2. OT Monitoring / Node-RED
 
@@ -32,24 +32,24 @@
 
 | MQTT Topic | Source | Data | Consumer |
 |---|---|---|---|
-| `cell01/plc01/motor/speed` | OT-CELL01-PLC-01 | Motor speed / RPM | Node-RED |
-| `cell01/plc01/motor/current` | OT-CELL01-PLC-01 | Motor current | Node-RED |
-| `cell01/plc01/motor/temperature` | OT-CELL01-PLC-01 | Motor temperature | Node-RED |
-| `cell01/plc01/belt/speed` | OT-CELL01-PLC-01 | Conveyor belt speed | Node-RED |
-| `cell01/plc01/sensor/product` | OT-CELL01-PLC-01 | Product sensor data | Node-RED |
-| `cell01/plc01/state` | OT-CELL01-PLC-01 | PLC / conveyor state | Node-RED |
-| `cell02/plc01/motor/speed` | OT-CELL02-PLC-01 | Motor speed / RPM | Node-RED |
-| `cell02/plc01/motor/current` | OT-CELL02-PLC-01 | Motor current | Node-RED |
-| `cell02/plc01/motor/temperature` | OT-CELL02-PLC-01 | Motor temperature | Node-RED |
-| `cell02/plc01/belt/speed` | OT-CELL02-PLC-01 | Conveyor belt speed | Node-RED |
-| `cell02/plc01/sensor/product` | OT-CELL02-PLC-01 | Product sensor data | Node-RED |
-| `cell02/plc01/state` | OT-CELL02-PLC-01 | PLC / conveyor state | Node-RED |
-| `cell03/plc01/motor/speed` | OT-CELL03-PLC-01 | Motor speed / RPM | Node-RED |
-| `cell03/plc01/motor/current` | OT-CELL03-PLC-01 | Motor current | Node-RED |
-| `cell03/plc01/motor/temperature` | OT-CELL03-PLC-01 | Motor temperature | Node-RED |
-| `cell03/plc01/belt/speed` | OT-CELL03-PLC-01 | Conveyor belt speed | Node-RED |
-| `cell03/plc01/sensor/product` | OT-CELL03-PLC-01 | Product sensor data | Node-RED |
-| `cell03/plc01/state` | OT-CELL03-PLC-01 | PLC / conveyor state | Node-RED |
+| `cell01/plc01/motor/speed` | OT-SRV-EDGE-01 | Motor speed / RPM | DMZ-SRV-NodeRed-01 |
+| `cell01/plc01/motor/current` | OT-SRV-EDGE-01 | Motor current | DMZ-SRV-NodeRed-01 |
+| `cell01/plc01/motor/temperature` | OT-SRV-EDGE-01 | Motor temperature | DMZ-SRV-NodeRed-01 |
+| `cell01/plc01/belt/speed` | OT-SRV-EDGE-01 | Conveyor belt speed | DMZ-SRV-NodeRed-01 |
+| `cell01/plc01/sensor/product` | OT-SRV-EDGE-01 | Product sensor data | DMZ-SRV-NodeRed-01 |
+| `cell01/plc01/state` | OT-SRV-EDGE-01 | Conveyor state | DMZ-SRV-NodeRed-01 |
+| `cell02/plc01/motor/speed` | OT-SRV-EDGE-01 | Motor speed / RPM | DMZ-SRV-NodeRed-01 |
+| `cell02/plc01/motor/current` | OT-SRV-EDGE-01 | Motor current | DMZ-SRV-NodeRed-01 |
+| `cell02/plc01/motor/temperature` | OT-SRV-EDGE-01 | Motor temperature | DMZ-SRV-NodeRed-01 |
+| `cell02/plc01/belt/speed` | OT-SRV-EDGE-01 | Conveyor belt speed | DMZ-SRV-NodeRed-01 |
+| `cell02/plc01/sensor/product` | OT-SRV-EDGE-01 | Product sensor data | DMZ-SRV-NodeRed-01 |
+| `cell02/plc01/state` | OT-SRV-EDGE-01 | Conveyor state | DMZ-SRV-NodeRed-01 |
+| `cell03/plc01/motor/speed` | OT-SRV-EDGE-01 | Motor speed / RPM | DMZ-SRV-NodeRed-01 |
+| `cell03/plc01/motor/current` | OT-SRV-EDGE-01 | Motor current | DMZ-SRV-NodeRed-01 |
+| `cell03/plc01/motor/temperature` | OT-SRV-EDGE-01 | Motor temperature | DMZ-SRV-NodeRed-01 |
+| `cell03/plc01/belt/speed` | OT-SRV-EDGE-01 | Conveyor belt speed | DMZ-SRV-NodeRed-01 |
+| `cell03/plc01/sensor/product` | OT-SRV-EDGE-01 | Product sensor data | DMZ-SRV-NodeRed-01 |
+| `cell03/plc01/state` | OT-SRV-EDGE-01 | Conveyor state | DMZ-SRV-NodeRed-01 |
 
 ## 3. Node-RED Dashboard
 
@@ -57,6 +57,7 @@
 |---|---|---|---|---|---|---|---|
 | IT-PC-Host-01 | IT | DMZ-SRV-NodeRed-01 | DMZ | TCP / 1880 | → | Access to Node-RED web interface | ALLOWED |
 | IT-PC-Host-01 | IT | DMZ-SRV-NodeRed-01 | DMZ | TCP / 9000 | → | Access to Portainer management interface | ALLOWED |
+| IT-PC-Host-01 | IT | OT-SRV-EDGE-01 | OT | TCP / 1880 | → | Access to Node-RED web interface | ALLOWED |
 
 ## 4. Secure Administration
 
@@ -102,8 +103,8 @@
 | Flow ID | Source | Destination | Main Protocol | Security Purpose |
 |---|---|---|---|---|
 | COMM-01 | CELL01 PLC | OT EDGE | Modbus TCP / TCP 502 | Industrial telemetry |
-| COMM-02 | CELL02 PLC | OT EDGE | MQTT / TCP 1883 | Industrial telemetry |
-| COMM-03 | CELL03 PLC | OT EDGE | MQTT / TCP 1883 | Industrial telemetry |
+| COMM-02 | CELL02 PLC | OT EDGE | OPC UA / TCP 1883 | Industrial telemetry |
+| COMM-03 | CELL03 PLC | OT EDGE | OPC UA / TCP 1883 | Industrial telemetry |
 | COMM-04 | Node-RED | OT EDGE | MQTT / TCP 1883 | OT monitoring |
 | COMM-05 | IT workstation | Node-RED | HTTP / TCP 1880 | Monitoring dashboard |
 | COMM-06 | IT workstation | Jump Server | SSH / TCP 22 | Secure administration |

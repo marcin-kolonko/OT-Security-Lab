@@ -286,6 +286,7 @@ The project is intentionally developed in stages rather than attempting to build
 - [x] VPN tunneling
 - [x] NTP infrastructure
 - [x] Modbus TCP
+- [x] OPC UA
 - [ ] Centralized Syslog
 - [ ] Zeek / Suricata IDS
 - [ ] Security monitoring
@@ -295,11 +296,8 @@ The project is intentionally developed in stages rather than attempting to build
 - [ ] Wazuh integration
 - [ ] Expanded OT/ICS attack and detection scenarios
 - [ ] Additional OT/ICS protocol simulators
-  - [ ] OPC UA
-  - [ ] S7comm
   - [ ] DNP3
   - [ ] BACnet/IP
-  - [ ] EtherNet/IP
 
 ---
 
